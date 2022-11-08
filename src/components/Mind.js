@@ -1,13 +1,31 @@
-import {useState} from "react";
+import {useEffect} from "react";
 import styled from "styled-components";
 
-function Mind({currentAction}) {
+function Mind({
+    currentAction,    
+    room,
+    setRoom,
+    place,
+    setOptions,
+    chosenOption,}) {
+
+    useEffect(()=>
+        {if(currentAction === chosenOption.interaction) 
+        {
+            setOptions(chosenOption.content)}
+        }
+    ,[currentAction]);
+        
 
   return (
     <MindDiv>
         <LeftAside>LeftAside</LeftAside>
         <MindUl>
             Mind:
+            <li>{room && room}</li>
+            <li>{place && place}</li>
+
+            <li>{chosenOption && chosenOption.name}</li>
             <li>{currentAction}</li>
         </MindUl>
         <RightAside>RightAside</RightAside>
@@ -22,8 +40,6 @@ justify-content: center;
 flex-grow: 3;
 flex-wrap: nowrap;
 
-width: 100%;
-max-width: 800px;
 height: 50vh;
 border: 3px solid black;
 `;

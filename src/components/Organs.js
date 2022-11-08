@@ -14,21 +14,22 @@ return(
 <OrganForm>
           <fieldset>
             <legend>SELECT_ORGAN</legend>
-
               {organsArray.map((organ, index) => 
-                <>
-                  <input
-                    type="radio"
-                    id= {"contactChoice"+index}
-                    name="organ"
-                    value= {organ.name}
-                    onChange={handleChange}
-                  />
-                  <label htmlFor={"contactChoice"+index} >{organ.name}</label>
-                </> 
-              )}
-
-          <FlexDiv>{chosenOrgan.content.map((organFunction)=> <button onClick={()=>bodyAction(organFunction)}> {organFunction} </button>) }</FlexDiv>
+                    <>
+                    <input
+                        type="radio"
+                        id= {"contactChoice"+index}
+                        name="organ"
+                        value= {organ.name}
+                        onChange={handleChange}
+                    />
+                    <label htmlFor={"contactChoice"+index} >{organ.name}</label>
+                    </> 
+                )}
+            <p>{chosenOrgan ? chosenOrgan.name : "choose..."}</p>
+            <FlexDiv>
+                {chosenOrgan.content.map((organFunction)=> <button onClick={()=>bodyAction(organFunction)}> {organFunction} </button>) }
+            </FlexDiv>
 
           </fieldset>
 </OrganForm>)
@@ -36,7 +37,6 @@ return(
 export default Organs;
 
 const OrganForm=styled.form`
-max-width: 800px;
 background-color: lightgrey;
 padding: 30px;
 border: 3px solid hotpink;
@@ -44,7 +44,9 @@ color: hotpink;
 `;
 
 const FlexDiv = styled.div`
-display: flex;
-justify-content: center;
-gap: 3%;
+display: grid;
+grid-template-columns: 100px 100px 100px;
+grid-template-rows: 50px 50px 50px;
 `;
+
+
