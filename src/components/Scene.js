@@ -1,19 +1,13 @@
-import {useState} from "react";
 import styled from "styled-components";
 
-//import {doorknobs} from "../db/optionsArray";
-
 function Scene({
-    options,
-    setRoom,
-    setPlace,
+  currentOptions,
     setChosenOption
-
 }) {
 
   return (
     <OptionsDiv>
-        {options.map((option)=> <button onClick={()=>setChosenOption(option)}>{option.name}</button>) }
+        {currentOptions.map((option)=> <button onClick={()=>setChosenOption(option)}>{option.name}</button>) }
     </OptionsDiv>  
   );
 }

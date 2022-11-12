@@ -1,24 +1,36 @@
-export const kitchen = [
-{name: "sink", interaction: "Hand/Rotate", content: [] },
-{name: "fridge", interaction: "Hand/Push", content: []  },
-{name: "desk", interaction: "Feet/Kick", content: [] }
+const end =[
+    {name: "emptyness", interaction: ["eye","stare"], content:{message:" and enter the void behind the rooms.", leadsTo:  []} },   
+    {name: "emptyness", interaction: ["eye","stare"], content:{message:" and enter the void behind the rooms.", leadsTo:  []} },
+    {name: "emptyness", interaction: ["eye","stare"], content:{message:" and enter the void behind the rooms.", leadsTo:  []} },
+    {name: "emptyness", interaction: ["eye","stare"], content:{message:" and enter the void behind the rooms.", leadsTo:  []} },
+    {name: "emptyness", interaction: ["eye","stare"], content:{message:" and enter the void behind the rooms.", leadsTo:  []} },   
+    {name: "emptyness", interaction: ["eye","stare"], content:{message:" and enter the void behind the rooms.", leadsTo:  []} },
+    {name: "emptyness", interaction: ["eye","stare"], content:{message:" and enter the void behind the rooms.", leadsTo:  []} },
+    {name: "emptyness", interaction: ["eye","stare"], content:{message:" and enter the void behind the rooms.", leadsTo:  []} },
+]
+
+const kitchen = [
+{name: "sink", interaction: ["eye","stare"], content:  {message:" and enter the sink", leadsTo: end}},
+{name: "fridge", interaction: ["eye","stare"], content:  {message:" and enter the fridge", leadsTo: end}},
+{name: "desk", interaction: ["eye","stare"], content:  {message:" and enter the desk", leadsTo: end}}
 ];
 
-export const bathroom = [
-{name: "sink", interaction: "Hand/Rotate", content: [] },
-{name: "shower", interaction: "Hand/Push", content:[] },
-{name: "toilet", interaction: "Feet/Kick", content: [] },
-{name: "mirror", interaction: "Feet/Kick", content: [] }
+const bathroom = [
+{name: "sink", interaction: ["eye","stare"], content:  {message:" and enter the sink", leadsTo: end}},
+{name: "shower", interaction: ["eye","stare"], content:  {message:" and enter the shower", leadsTo: end}},
+{name: "toilet", interaction: ["eye","stare"], content:  {message:" and enter the toilet", leadsTo: end}},
+{name: "mirror", interaction: ["eye","stare"], content:  {message:" and enter the mirror", leadsTo: end}}
 ];
 
-export const bedroom = [
-{name: "mirror", interaction: "Hand/Rotate", content: [] },
-{name: "bed", interaction: "Hand/Push", content: []  },
-{name: "window", interaction: "Feet/Kick", content: [] }
+const bedroom = [
+{name: "mirror", interaction: ["eye","stare"],  content: {message:" and enter the mirror", leadsTo: end}},
+{name: "bed", interaction: ["eye","stare"],  content: {message:" and enter the bed", leadsTo: end}},
+{name: "window", interaction: ["eye","stare"],  content: {message:" and enter the window", leadsTo: end}}
 ];
 
 export const doorknobs = [
-{name: "doorKnob", interaction: "Hand/Rotate", content: kitchen },
-{name: "doorHandle", interaction: "Hand/Push", content: bathroom  },
-{name: "broken doorKnob", interaction: "Feet/Kick", content: bedroom }
+{name: "doorKnob", interaction: ["hand","rotate"], content: {message:" and enter the kitchen", leadsTo: kitchen} },
+{name: "doorHandle", interaction: ["hand","push"], content: {message:" and enter the bathroom", leadsTo: bathroom}  },
+{name: "broken doorKnob", interaction: ["feet","kick"], content: {message:" and enter the bedroom", leadsTo: bedroom } }
 ]
+

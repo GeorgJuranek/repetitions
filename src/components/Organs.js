@@ -1,34 +1,33 @@
-import {useState} from "react";
 import styled from "styled-components";
 
-import {organsArray} from "../db/organsArray"
+import {organsArray} from "../db/organsArray";
 
-function Organs({chosenOrgan, changeChosenOrgan, bodyAction}) {
+function Organs({chosenOption, chosenOrgan, setChosenOrgan, setChosenOrganFunction}) {
 
     const handleChange = (e) => {
-        const newChosenOrgan = organsArray.find((organ)=> organ.name===e.target.value)
-        changeChosenOrgan(newChosenOrgan);
+        const newChosenOrgan = organsArray.find((newOrgan)=> newOrgan.name===e.target.value);
+        setChosenOrgan(newChosenOrgan);
       };
 
 return(
-<OrganForm>
+<OrganForm style={chosenOption.name.length>0 ? {display: "grid"} : {display: "none"} }>
           <fieldset>
             <legend>SELECT_ORGAN</legend>
               {organsArray.map((organ, index) => 
                     <>
-                    <input
-                        type="radio"
-                        id= {"contactChoice"+index}
-                        name="organ"
-                        value= {organ.name}
-                        onChange={handleChange}
-                    />
-                    <label htmlFor={"contactChoice"+index} >{organ.name}</label>
+                      <input
+                          type="radio"
+                          id= {"contactChoice"+index}
+                          name="organ"
+                          value= {organ.name}
+                          checked={chosenOrgan.name === organ.name}
+                          onChange={handleChange}
+                      />
+                      <label style={organ.name===chosenOrgan.name ? {backgroundColor: "red"} : {backgroundColor: "pink"}} htmlFor={"contactChoice"+index} >{organ.name}</label>
                     </> 
                 )}
-            <p>{chosenOrgan ? chosenOrgan.name : "choose..."}</p>
             <FlexDiv>
-                {chosenOrgan.content.map((organFunction)=> <button onClick={()=>bodyAction(organFunction)}> {organFunction} </button>) }
+                {chosenOrgan.content.map((organFunction)=> <button onClick={()=>setChosenOrganFunction(organFunction)}> {organFunction} </button>) }
             </FlexDiv>
 
           </fieldset>

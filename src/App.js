@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import styled from "styled-components";
 
 import Mind from "./components/Mind";
@@ -9,49 +9,67 @@ import {doorknobs} from "./db/optionsArray"
 
 function App() {
 
-  //for Organ
-  const [chosenOrgan, setChosenOrgan] = useState({name:"", content: []})
-  function changeChosenOrgan(newOrgan) {setChosenOrgan(newOrgan)};
+  //
+  const [chosenOrgan, setChosenOrgan] = useState({name:"", content: []});
+  const [chosenOrganFunction, setChosenOrganFunction] = useState("");
+  
+  //
+  const [currentOptions, setCurrentOptions] = useState([]);
+  const [chosenOption, setChosenOption] = useState({name:"", interaction:"", content: {message:"start", leadsTo: doorknobs}});
+  const [pastOptions, setPastOptions] = useState([]);
+  
+  //
+  const [currentAction, setCurrentAction] = useState([]);
 
-  const [currentAction, setCurrentAction] = useState(""); //for Mind
-
-  function bodyAction(action) {
-    const compound = chosenOrgan.name+"/"+action;
+  //
+  function bodyAction() {
+    const compound = chosenOrgan.name+"/"+chosenOrganFunction;
     const compoundArray = compound.split("/");
-    console.log(compoundArray);
-    setCurrentAction(compound)
-    changeChosenOrgan({name:"", content: []})
+    setCurrentAction(compoundArray);
   };
 
-  //for Scene
-  const [room, setRoom] = useState();
-  const [place, setPlace] = useState();
-  const [options, setOptions] = useState(doorknobs);
-  const [chosenOption, setChosenOption] = useState({name:"", interaction:"", content: doorknobs});
+  //
+  let actionString = `i try to ${currentAction[1]} the ${chosenOption.name} with my ${currentAction[0]}`;
+  let actionStringPast = `i have tried to ${currentAction[1]} the ${chosenOption.name} with my ${currentAction[0]}`;
+  
+  useEffect(()=>
+  {   
+      if(currentAction.toString() === chosenOption.interaction.toString()) 
+      {
+          setPastOptions([...pastOptions, actionString + chosenOption.content.message]);
+          setCurrentOptions(chosenOption.content.leadsTo);
+      } 
+      else
+      {
+          setPastOptions([...pastOptions, actionStringPast + ` but i couldn't ${currentAction[1]} the ${chosenOption.name} with my ${currentAction[0]}`]);
+      }
+  }
+  ,[currentAction]);
+
+  //
 
   return (
     <FlexMain>
       <Mind 
         currentAction={currentAction}
-
-        room={room}
-        place={place}
+        chosenOrgan={chosenOrgan}
+        chosenOrganFunction={chosenOrganFunction}
         chosenOption={chosenOption}
-        setOptions={setOptions}
-
-        setRoom={setRoom}
+        setCurrentOptions={setCurrentOptions}
+        pastOptions={pastOptions}
+        setPastOptions={setPastOptions}
       />
       <Scene 
-      options={options}
-      setRoom={setRoom}
-      setPlace={setPlace}
-      setChosenOption={setChosenOption}
+        currentOptions={currentOptions}
+        setChosenOption={setChosenOption}
       />
       <Organs 
+        chosenOption={chosenOption}
         chosenOrgan={chosenOrgan}
-        changeChosenOrgan={changeChosenOrgan}
-        bodyAction={bodyAction}
+        setChosenOrgan={setChosenOrgan}
+        setChosenOrganFunction={setChosenOrganFunction}
       />
+      {chosenOrganFunction && <button onClick={()=> bodyAction()}>{" > "+actionString}</button>}
     </FlexMain>  
   );
 }
@@ -63,6 +81,5 @@ const FlexMain = styled.main`
   justify-content: center;
   flex-direction: column;
   gap: 10px;
-
   width: 100%;
 `;

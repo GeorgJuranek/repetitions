@@ -1,4 +1,4 @@
-export const eye = [
+const eye = [
     "stare", 
     "close", 
     "wink", 
@@ -6,54 +6,55 @@ export const eye = [
     "cry"
 ]
 
-export const nose = [
+const nose = [
     "breath",
     "smell", 
     "pull", 
     "rub"
 ]
 
-export const mouth = [
-    "Chew", 
-    "Lick", 
-    "Swallow", 
-    "Breath", 
-    "Whistle", 
-    "Click"
+const mouth = [
+    "chew", 
+    "lick", 
+    "swallow", 
+    "breath", 
+    "whistle", 
+    "click"
 ]
 
-export const hand = [
-    "Take",	
-    "Throw",	
-    "Hit",	
-    "Rotate",	
-    "Push"
+const hand = [
+    "take",	
+    "throw",	
+    "hit",	
+    "rotate",	
+    "push"
 ]
 
-export const feet = [
-    "Leave",	
-    "Sit",	
-    "Kick",	
-    "Lay",	
-    "Stand"
+const feet = [
+    "leave",	
+    "sit",	
+    "kick",	
+    "lay",	
+    "stand"
 ]
 
-export const penis = [
-    "Rub",	
-    "Push"
+const penis = [
+    "rub",	
+    "push"
 ]
 
-export const anus = [
-    "Shut",	
-    "Push"
+const anus = [
+    "shut",	
+    "push"
 ]
 
 export const organsArray = [
-{name: "Eye", content: eye},
-{name: "Nose", content: nose},
-{name: "Mouth", content:mouth },
-{name: "Hand", content: hand},
-{name: "Feet", content: feet},
-{name: "Penis", content: penis},
-{name: "Anus", content: anus},
+{name: "eye", content: eye},
+{name: "nose", content: nose},
+{name: "mouth", content:mouth },
+{name: "hand", content: hand},
+{name: "feet", content: feet},
+{name: "penis", content: penis},
+{name: "anus", content: anus},
 ];
+
