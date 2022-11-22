@@ -30,6 +30,7 @@ function Mind({
     }
 
     //
+    
     const [leftEyePosX,setLeftEyePosX] = useState(0);
     const [leftEyePosY,setLeftEyePosY] = useState(0);
     const [rightEyePosX,setRightEyePosX] = useState(0);
