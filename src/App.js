@@ -17,7 +17,6 @@ function App() {
   //
   const [chosenOrganFunction, setChosenOrganFunction] = useState("");
 
-  
   //
   const [currentOptions, setCurrentOptions] = useState([]);
 
@@ -32,7 +31,6 @@ function App() {
   
 
   //REFs
-
   const memory = useRef();
 
   //

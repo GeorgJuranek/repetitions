@@ -1,3 +1,4 @@
+import {useState, useEffect, useRef} from 'react';
 import styled from "styled-components";
 import {css} from "styled-components";
 
@@ -9,6 +10,12 @@ function Mind({
     currentOptions,
     setChosenOption
 }) {
+    //
+        const leftEyelid = useRef();
+        const rightEyelid = useRef();
+        const leftEyesight = useRef();
+        const rightEyesight = useRef();
+    //
 
     function switchOption(option) {
         if(option === chosenOption)
@@ -19,19 +26,38 @@ function Mind({
         {
             setChosenOption(option);
         }
+
     }
+
+    //
+    const [leftEyePosX,setLeftEyePosX] = useState(0);
+    const [leftEyePosY,setLeftEyePosY] = useState(0);
+    const [rightEyePosX,setRightEyePosX] = useState(0);
+    const [rightEyePosY,setRightEyePosY] = useState(0);
+    //
+    function updateRightEyePosition() 
+        {
+            setTimeout(
+            ()=>{setRightEyePosX((leftEyesight.current.getBoundingClientRect().left - leftEyelid.current.getBoundingClientRect().left)*-1);
+            setRightEyePosY((leftEyesight.current.getBoundingClientRect().top - leftEyelid.current.getBoundingClientRect().top)*-1);
+            rightEyelid.current.scrollTo(rightEyePosX,rightEyePosY)}
+            ,100);
+        }
 
   return (
     <MindDiv>
 
-        <LeftAside>
+        <LeftAside  ref={leftEyelid}>
             <OptionsDiv>
-                {currentOptions.map((option)=> 
-                    <OptionButton isItOn={option===chosenOption && highlightedOption} 
-                    onClick={()=>switchOption(option)}>
-                        {option.name}
-                    </OptionButton>) 
-                }
+                <img  style={{opacity: "0.5"}}  ref={leftEyesight} onWheel={()=>updateRightEyePosition()} src={require("../images/test.jpeg")} alt="your flat" width="1500px" height="1500px"/>
+                <OverlayDiv>
+                    {currentOptions.map((option)=> 
+                        <OptionButton isItOn={option===chosenOption && highlightedOption} 
+                        onClick={()=>switchOption(option)}>
+                            {option.name}
+                        </OptionButton>) 
+                    }
+                </OverlayDiv>
             </OptionsDiv>
         </LeftAside>
 
@@ -44,12 +70,17 @@ function Mind({
             <li>{chosenOrganFunction && chosenOrganFunction}</li>
         </MindUl>
 
-        <RightAside>
-            {chosenOption &&    <OptionButton style={{width: "100%", border: "none", background: "none"}} isItOn={highlightedOption} 
-                                onClick={()=>switchOption(chosenOption)}>
-                                    {chosenOption.name}
-                                </OptionButton>
-            }
+        <RightAside  ref={rightEyelid}>
+            <OptionsDiv> 
+                <img style={{opacity: "0.5"}} ref={rightEyesight} src={require("../images/test.jpeg")} alt="your flat" width="1500px" height="1500px"/>
+                <OverlayDiv>
+                    {chosenOption &&    <OptionButton style={{width: "100%", border: "none", background: "none"}} isItOn={highlightedOption} 
+                                        onClick={()=>switchOption(chosenOption)}>
+                                            {chosenOption.name}
+                                        </OptionButton>
+                    }
+                </OverlayDiv>
+            </OptionsDiv>
         </RightAside>
 
     </MindDiv>  
@@ -84,6 +115,7 @@ const RightAside = styled.aside`
 width: 45%;
 border: 3px solid grey;
 border-radius: 5px;
+overflow:hidden;
 `;
 
 const SubtitleP = styled.p`
@@ -92,6 +124,7 @@ background-color: black;
 color: white;
 font-size: 1.5rem;
 bottom: 0;
+z-index: 2;
 `;
 
 //
@@ -102,7 +135,9 @@ grid-template-coumns: 1fr 1fr 1fr 1fr;
 grid-auto-flow: column;
 justify-items: center;
 gap: 8%;
-width: auto;
+width: 100%;
+height:100%;
+position: relative;
 `;
 
 const OptionButton= styled.button`
@@ -116,4 +151,8 @@ ${(props) => props.isItOn}; //for animation
 
 const highlightedOption= css`
 border: 2px solid orange;
+`;
+
+const OverlayDiv = styled.div`
+position: absolute;
 `;
