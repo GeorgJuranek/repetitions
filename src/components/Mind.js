@@ -50,7 +50,14 @@ function Mind({
 
         <LeftAside  ref={leftEyelid}>
             <OptionsDiv>
-                <img  style={{opacity: "0.5"}}  ref={leftEyesight} onWheel={()=>updateRightEyePosition()} src={require("../images/test.jpeg")} alt="your flat" width="1500px" height="1500px"/>
+                <img    style={{opacity: "0.5"}}  
+                        ref={leftEyesight} 
+                        onWheel={()=>updateRightEyePosition()} 
+                        ontouchmove={()=>updateRightEyePosition()}
+                        src={require("../images/test.jpeg")} 
+                        alt="your flat" 
+                        width="1500px" 
+                        height="1500px"/>
                 <OverlayDiv>
                     {currentOptions.map((option)=> 
                         <OptionButton isItOn={option===chosenOption && highlightedOption} 
