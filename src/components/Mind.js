@@ -53,7 +53,7 @@ function Mind({
                 <img    style={{opacity: "0.5"}}  
                         ref={leftEyesight} 
                         onWheel={()=>updateRightEyePosition()} 
-                        ontouchmove={()=>updateRightEyePosition()}
+                        onClick={()=>updateRightEyePosition()} 
                         src={require("../images/test.jpeg")} 
                         alt="your flat" 
                         width="1500px" 
