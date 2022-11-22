@@ -1,142 +1,160 @@
+import {useRef} from 'react';
 import {useState, useEffect} from "react";
 import styled from "styled-components";
 import {keyframes} from "styled-components";
 
-//import {rooms} from "./db/rooms";
+import Mind from "./components/Mind";
+import Organs from "./components/Organs";
 
-import { doorHandles } from "./db/rooms";
-import Shell from "./components/Shell";
-import BodyMachine from "./components/BodyMachine";
-import Compound from "./components/Compound";
+import {doorknobs} from "./db/optionsArray"
 
 function App() {
 
-//OUTER STATES  
-const [room, setRoom] = useState();
-const [options, setOptions] = useState(doorHandles);
-const [object, setObject] = useState();
-//-->Funktionen für Shell-Komponente
-function changeOptions(objectsArray) { setOptions(objectsArray); };
-function changeObject(object) { setObject(object); };
+  //
+  const [chosenOrgan, setChosenOrgan] = useState({name:"", content: []});
+  useEffect(()=> setChosenOrganFunction(""),[chosenOrgan]);
 
-//INNER STATES
-const [bodyPart, setBodyPart] = useState("");
-const [bodyFunction, setBodyFunction] = useState("");
-//-->Funktionen für BodyMachine-Komponente
-function changeBodyPart(newBodyPart) {setBodyPart(newBodyPart);};
-function changeBodyFunction(newBodyFunction) {setBodyFunction(newBodyFunction);};
+  //
+  const [chosenOrganFunction, setChosenOrganFunction] = useState("");
 
-const[lastAction, setLastAction]=useState("");
-function changeLastAction(string) {setLastAction(string)};
+  //
+  const [currentOptions, setCurrentOptions] = useState([]);
 
-// EFFECTS
-useEffect(()=> {setObject()},[room]);
+  const [chosenOption, setChosenOption] = useState({name:"", interaction:"", content: {message:"start", leadsTo: doorknobs}});
+  useEffect(()=> setChosenOrgan({name:"", content: []}),[chosenOption]);
+
+  const [pastOptions, setPastOptions] = useState([]);
+
+  
+  //
+  const [currentAction, setCurrentAction] = useState([]);
+  
+
+  //REFs
+  const memory = useRef();
+
+  //
+  function bodyAction() {
+    const compound = chosenOrgan.name+"/"+chosenOrganFunction;
+    const compoundArray = compound.split("/");
+    setCurrentAction(compoundArray);
+  };
+
+  //
+  let actionString = `i try to ${currentAction[1]} the ${chosenOption.name}`;
+  let actionStringPast = `i have tried to ${currentAction[1]} the ${chosenOption.name}`;
+  
+  useEffect(()=>
+  {   
+    if(currentAction.toString() === chosenOption.interaction.toString()) 
+    {
+      setPastOptions([...pastOptions, {action: actionString, result: chosenOption.content.message}]);
+      setCurrentOptions(chosenOption.content.leadsTo);
+      setChosenOption({name:"", interaction:"", content: {message:"start", leadsTo:""}});
+      } 
+      else
+      {
+        setPastOptions([...pastOptions, {action: actionStringPast, result:`, but i couldn't ${currentAction[1]} the ${chosenOption.name} with my ${currentAction[0]}`}]);
+      }
+      
+      memory.current.scrollTo(0,memory.current.scrollHeight);
+  }
+  ,[currentAction]);
+
+  //
 
   return (
-    <HigherOrderMain>        
-      <MindAside>
-          ...
-      </MindAside>
-      <OrderDiv>
-        <header>
-          <H1> Repetitionen <span style={{color: "orange", fontSize: "0.6em"}}>version:1</span></H1>
-        </header>
-        <Shell 
-          lastAction={lastAction}
-          options={options}
-          object ={object}
-          changeObject={changeObject} 
-        />
-        <Compound 
-          object={object}
-          bodyPart={bodyPart}
-          bodyFunction={bodyFunction}
-          changeBodyPart={changeBodyPart}
-          changeBodyFunction={changeBodyFunction}
-          changeObject={changeObject}
-          changeOptions={changeOptions}
-          changeLastAction={changeLastAction}
-        /> 
-        <BodyMachine 
-          bodyPart={bodyPart} 
-          bodyFunction={bodyFunction} 
-          changeBodyPart={changeBodyPart} 
-          changeBodyFunction={changeBodyFunction}
-        />
-      </OrderDiv>
-      <MindAside>
-          ...
-      </MindAside>
-    </HigherOrderMain>
+    <FlexMain>
+      <header>
+        <MemoryUl ref={memory} role="list">
+            {  pastOptions.length>1 && pastOptions.slice(1).map((option)=>
+            <AnimatedLi>
+              <details>
+                <summary>{option.action}</summary>
+                <div>{option.result}</div>
+              </details>
+            </AnimatedLi>)}
+            
+        </MemoryUl>
+      </header>
+      <Mind 
+        currentAction={currentAction}
+        chosenOrgan={chosenOrgan}
+        chosenOrganFunction={chosenOrganFunction}
+        chosenOption={chosenOption}
+        setChosenOption={setChosenOption}
+        currentOptions={currentOptions}
+        setCurrentOptions={setCurrentOptions}
+        setPastOptions={setPastOptions}
+        pastOptions={pastOptions}
+      />
+      <Organs 
+        chosenOption={chosenOption}
+        chosenOrgan={chosenOrgan}
+        setChosenOrgan={setChosenOrgan}
+        chosenOrganFunction={chosenOrganFunction}
+        setChosenOrganFunction={setChosenOrganFunction}
+        bodyAction={bodyAction}
+        pastOptions={pastOptions}
+      />
+    </FlexMain>  
   );
 }
 export default App;
 
-//ANIMATIONEN
-const popUpAnimationRight = keyframes`
-0%{transform: translateX(500px); opacity: 0.1; }
-100%{transform: translateX(0); opacity: 1; }
+
+const FlexMain = styled.main`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  background: linear-gradient(180deg, rgba(2,0,36,1) 35%, lightpink 100%, rgba(98,98,98,1) 100%);
+  padding-bottom: 150px;
+  `;
+
+const MemoryUl = styled.ul`
+  color: pink;
+  height: 100px;
+  margin: 20px auto;
+  text-align:center;
+  list-style: none;
+  display: flex;
+  flex-flow: column;
+  height: 10vh;
+  overflow-y: scroll;
+  background: radial-gradient(circle, rgba(2,0,36,1) 21%, lightpink 86%);
+  border: 1px solid navyblue;
+  box-shadow: 0px -8px grey;
+  border-radius: 35px;
+  width: 90%;
+  padding-bottom: 30px;
 `;
 
-const popUpAnimationTop = keyframes`
-0%{transform: translateY(-500px); opacity: 0.1; }
-100%{transform: translateY(0); opacity: 1; }
+//
+const rushInAnim = keyframes`
+    0%{transform:translateY(200px); opacity: 0.01}
+    50%{ opacity: 0.2}
+    100%{transform:translateY(0); opacity: 1}
 `;
 
-//STYLED COMPONENTS
+const AnimatedLi = styled.li`
+    animation-name: ${rushInAnim};
+    animation-duration: 1.2s;
+    animation-iteration-count: 1;
+    opacity: 0.2;
+    font-size: 0.8rem;
+    border: 1px solid pink;
 
-const HigherOrderMain = styled.main`
-display: flex;
-background-color: black;
-width: 100vw;
-height: 100vh;
-`;
+    :nth-last-child(-n+3) {
+      opacity: 0.3
+    }
 
-const MindAside = styled.aside`
-border: 2px solid white;
-height: 99vh;
-min-width: 500px;
-width: 30%;
-background-color: black;
-`;
+    :last-child {
+      opacity: 0.4;
+    }
 
-const OrderDiv = styled.div`
-
-margin: auto;
-background-color: black;
-display: flex;
-align-items: center;
-flex-direction: column;
-`;
-
-const H1 = styled.h1`
-text-decoration: underline;
-color: grey;
-
-transform: translateY(0);
-opacity: 1;
-animation-name: ${popUpAnimationTop};
-animation-duration: 2s;
-animation-iteration-count: 1;
-`;
-
-const BodyStatsDl = styled.dl`
-padding: 5px;
-list-style: none;
-border: 10px double pink;
-background-color: none;
-border-radius: 30px;
-margin: 2px;
-color: pink;
-padding: 15px;
-display: grid;
-grid-template-columns: 1fr 1fr 1fr 1fr;
-grid-template-rows: 1fr 1fr;
-gap: 5px;
-
-transform: translateX(0);
-opacity: 1;
-animation-name: ${popUpAnimationRight};
-animation-duration: 2s;
-animation-iteration-count: 1;
+    :focus {
+      opacity: 0.6;
+    }
 `;
