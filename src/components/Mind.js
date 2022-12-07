@@ -35,22 +35,30 @@ function Mind({
     const [leftEyePosY,setLeftEyePosY] = useState(0);
     const [rightEyePosX,setRightEyePosX] = useState(0);
     const [rightEyePosY,setRightEyePosY] = useState(0);
+    
     //
-    function updateRightEyePosition() 
-        {
-            setTimeout(
-            ()=>{setRightEyePosX((leftEyesight.current.getBoundingClientRect().left - leftEyelid.current.getBoundingClientRect().left)*-1);
-            setRightEyePosY((leftEyesight.current.getBoundingClientRect().top - leftEyelid.current.getBoundingClientRect().top)*-1);
-            rightEyelid.current.scrollTo(rightEyePosX,rightEyePosY)}
-            ,100);
-        }
+    
+    useEffect(() => {
+
+        const handleScroll = event => {
+                rightEyelid.current.scrollTo(event.currentTarget.scrollLeft, event.currentTarget.scrollTop)
+        };
+    
+        const element = leftEyelid.current;
+        element.addEventListener('scroll', handleScroll);
+    
+        return () => {
+          element.removeEventListener('scroll', handleScroll);
+        };
+
+      }, []);
 
   return (
     <MindDiv>
 
         <LeftAside  ref={leftEyelid}>
             <OptionsDiv>
-                <img  style={{opacity: "0.5"}}  ref={leftEyesight} onWheel={()=>updateRightEyePosition()} src={require("../images/test.jpeg")} alt="your flat" width="1500px" height="1500px"/>
+                <EyeImg  style={{opacity: "0.5"}} ref={leftEyesight}  src={require("../images/test.jpeg")} alt="your flat"/>
                 <OverlayDiv>
                     {currentOptions.map((option)=> 
                         <OptionButton isItOn={option===chosenOption && highlightedOption} 
@@ -73,7 +81,7 @@ function Mind({
 
         <RightAside  ref={rightEyelid}>
             <OptionsDiv> 
-                <img style={{opacity: "0.5"}} ref={rightEyesight} src={require("../images/test.jpeg")} alt="your flat" width="1500px" height="1500px"/>
+                <EyeImg style={{opacity: "0.5"}} ref={rightEyesight} src={require("../images/test.jpeg")} alt="your flat"/>
                 <OverlayDiv>
                     {chosenOption &&    <OptionButton style={{width: "100%", border: "none", background: "none"}} isItOn={highlightedOption} 
                                         onClick={()=>switchOption(chosenOption)}>
@@ -94,7 +102,7 @@ display: flex;
 justify-content: center;
 flex-wrap: nowrap;
 position: relative;
-height: 40vh;
+height: 60vh;
 `;
 
 const MindUl = styled.ul`
@@ -156,4 +164,11 @@ border: 2px solid orange;
 
 const OverlayDiv = styled.div`
 position: absolute;
+`;
+
+const EyeImg = styled.img`
+overflow: scroll;
+width: 250%;
+height: auto;
+margin: auto;
 `;

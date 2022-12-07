@@ -121,7 +121,7 @@ const MemoryUl = styled.ul`
   list-style: none;
   display: flex;
   flex-flow: column;
-  height: 10vh;
+  height: 20px;
   overflow-y: scroll;
   background: radial-gradient(circle, rgba(2,0,36,1) 21%, lightpink 86%);
   border: 1px solid navyblue;
