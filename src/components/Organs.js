@@ -13,7 +13,6 @@ function Organs({chosenOption, chosenOrgan, setChosenOrgan, chosenOrganFunction,
     setIsActive(true);
   }
   function deactivateFrame() {
-    //bodyAction();
     setIsActive(false);
   }
 
@@ -82,7 +81,7 @@ const OrganizingOrgansDiv = styled.div`
   padding: 30px;
   box-shadow: 0 10px grey;
   border-radius: 55px;
-  width: 90%;
+  width: 80%;
   margin: 20px auto;
   position: relative;
   border: 1px solid grey;
@@ -113,7 +112,7 @@ const buttonPushedAnim = keyframes`
     100% {transform:translate(5px,5px) scale(0.95); background-color: red;   box-shadow: 0 0 50px red;}
 `;
 const buttonReleasedAnim = keyframes`
-    0% {transform:translate(5px,5px) scale(0.95);; background-color: red;   box-shadow: 0 0 50px red;}
+    0% {transform:translate(5px,5px) scale(0.95); background-color: red;   box-shadow: 0 0 50px red;}
     100% {transform:translate(0,0) scale(1); background-color: pink;  box-shadow: 5px 5px darkgrey;}
 `;
   const highlightedOrgan = css`
@@ -149,11 +148,24 @@ const buttonReleasedAnim = keyframes`
 
 const FlexDiv = styled.div`
 display: grid;
-grid-template-columns: 100px 100px 100px;
-grid-template-rows: 50px 50px 50px;
+
+  grid-template-columns: 100px 100px 100px;
+  grid-template-rows: 50px 50px 50px 50px 50px;
+
+@media (max-width: 450px) {
+  grid-template-columns: 100px 100px;
+  grid-template-rows: 50px 50px 50px;
+}
+@media (max-width: 300px) {
+  grid-template-columns: 100px;
+  grid-template-rows: 50px 50px 50px 50px 50px 50px;
+}
+
+
 width: 350px;
-height: 350px;
-padding: 30px;
+height: auto;
+padding: 3%;
+margin: auto;
 background-color: pink;
 border-radius: 55px;
 gap: 60px 15px;

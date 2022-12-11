@@ -115,8 +115,9 @@ const FlexMain = styled.main`
 
 const MemoryUl = styled.ul`
   color: pink;
+  width: 80%;
   height: 100px;
-  margin: 20px auto;
+  margin: auto;
   text-align:center;
   list-style: none;
   display: flex;
@@ -127,7 +128,6 @@ const MemoryUl = styled.ul`
   border: 1px solid navyblue;
   box-shadow: 0px -8px grey;
   border-radius: 35px;
-  width: 90%;
   padding-bottom: 30px;
 `;
 

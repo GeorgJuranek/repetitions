@@ -1,6 +1,6 @@
 import {useState, useEffect, useRef} from 'react';
 import styled from "styled-components";
-import {css} from "styled-components";
+import {css, keyframes} from "styled-components";
 
 function Mind({
     chosenOrgan,
@@ -16,6 +16,8 @@ function Mind({
         const leftEyesight = useRef();
         const rightEyesight = useRef();
     //
+
+    const [isWinking, setIsWinking] = useState(false);
 
     function switchOption(option) {
         if(option === chosenOption)
@@ -39,30 +41,41 @@ function Mind({
     //
     
     useEffect(() => {
-
         const handleScroll = event => {
                 rightEyelid.current.scrollTo(event.currentTarget.scrollLeft, event.currentTarget.scrollTop)
-        };
-    
+        }; 
         const element = leftEyelid.current;
         element.addEventListener('scroll', handleScroll);
     
         return () => {
           element.removeEventListener('scroll', handleScroll);
         };
-
       }, []);
+
+      useEffect(() => {
+        const handleScroll = event => {
+                leftEyelid.current.scrollTo(event.currentTarget.scrollLeft, event.currentTarget.scrollTop)
+        }; 
+        const element = rightEyelid.current;
+        element.addEventListener('scroll', handleScroll);
+    
+        return () => {
+          element.removeEventListener('scroll', handleScroll);
+        };
+      }, []);
+
+      //
 
   return (
     <MindDiv>
 
-        <LeftAside  ref={leftEyelid}>
+        <LeftAside  ref={leftEyelid}  winking={isWinking && winking} onClick={ ()=>{setIsWinking(true)}} onAnimationEnd={()=>setIsWinking(false)}>
             <OptionsDiv>
                 <EyeImg  style={{opacity: "0.5"}} ref={leftEyesight}  src={require("../images/test.jpeg")} alt="your flat"/>
                 <OverlayDiv>
                     {currentOptions.map((option)=> 
                         <OptionButton isItOn={option===chosenOption && highlightedOption} 
-                        onClick={()=>switchOption(option)}>
+                        onClick={ ()=>{switchOption(option);setIsWinking(true)} }>
                             {option.name}
                         </OptionButton>) 
                     }
@@ -71,27 +84,20 @@ function Mind({
         </LeftAside>
 
         { pastOptions.length>1 && pastOptions.slice(-1).map((option)=><SubtitleP>{option.action + option.result}</SubtitleP>)}
-        
-        <MindUl>
-        <p>mind craft</p>
-            <li>{chosenOption && chosenOption.name}</li>
-            <li>{chosenOrgan && chosenOrgan.name}</li>
-            <li>{chosenOrganFunction && chosenOrganFunction}</li>
-        </MindUl>
 
-        <RightAside  ref={rightEyelid}>
-            <OptionsDiv> 
+        <RightAside  ref={rightEyelid} winking={isWinking && winking} onClick={()=>{setIsWinking(true)}} onAnimationEnd={()=>setIsWinking(false)}>
+            <OptionsDiv>  
                 <EyeImg style={{opacity: "0.5"}} ref={rightEyesight} src={require("../images/test.jpeg")} alt="your flat"/>
                 <OverlayDiv>
-                    {chosenOption &&    <OptionButton style={{width: "100%", border: "none", background: "none"}} isItOn={highlightedOption} 
-                                        onClick={()=>switchOption(chosenOption)}>
-                                            {chosenOption.name}
-                                        </OptionButton>
+                    {currentOptions.map((option)=> 
+                            <OptionButton isItOn={option===chosenOption && highlightedOption} 
+                            onClick={ ()=>{switchOption(option);setIsWinking(true)}}>
+                                {option.name}
+                            </OptionButton>) 
                     }
                 </OverlayDiv>
             </OptionsDiv>
         </RightAside>
-
     </MindDiv>  
   );
 }
@@ -105,11 +111,16 @@ position: relative;
 height: 60vh;
 `;
 
-const MindUl = styled.ul`
-width: 10%;
-border: 3px solid grey;
-background-Color: grey;
-color: white;
+//
+const winkAnim = keyframes`
+    0% {height: 100%; transform: translateY(0); border-radius: 1px; border-width: 1px; opacity: 1}
+    50% {height: 0; transform: translateY(25vh); border-radius: 50%; border-width: 10px; opacity: 0.1; width: 47%;}
+    100% {height: 100%; transform: translateY(0); border-radius: 1px; border-width: 1px; opacity: 1}
+`;
+const winking = css`
+    animation-name: ${winkAnim};
+    animation-duration: 0.4s;
+    animation-iteration-count: 1;
 `;
 
 const LeftAside = styled.aside`
@@ -117,6 +128,7 @@ border: 3px solid grey;
 width: 45%;
 border-radius: 5px;
 overflow: scroll;
+${(props) => props.winking}; //for animation
 `;
 
 
@@ -124,9 +136,11 @@ const RightAside = styled.aside`
 width: 45%;
 border: 3px solid grey;
 border-radius: 5px;
-overflow:hidden;
+overflow: scroll;
+${(props) => props.winking}; //for animation
 `;
 
+//
 const SubtitleP = styled.p`
 position: absolute;
 background-color: black;
@@ -134,6 +148,7 @@ color: white;
 font-size: 1.5rem;
 bottom: 0;
 z-index: 2;
+margin: 0 3%;
 `;
 
 //
@@ -166,9 +181,27 @@ const OverlayDiv = styled.div`
 position: absolute;
 `;
 
+//
+
 const EyeImg = styled.img`
 overflow: scroll;
 width: 250%;
 height: auto;
 margin: auto;
 `;
+
+//
+/*
+    const MindUl = styled.ul`
+    border: 3px solid grey;
+    background-Color: grey;
+    color: white;
+    `;
+
+    <MindUl>
+    <p>mind craft</p>
+        <li>{chosenOption && chosenOption.name}</li>
+        <li>{chosenOrgan && chosenOrgan.name}</li>
+        <li>{chosenOrganFunction && chosenOrganFunction}</li>
+    </MindUl>
+*/
