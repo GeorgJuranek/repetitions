@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { keyframes, css } from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+import {useRef} from 'react';
 
 import {organsArray} from "../db/organsArray";
 import BreathButton from "./BreathButton";
@@ -25,22 +27,30 @@ function Organs({chosenOption, chosenOrgan, setChosenOrgan, chosenOrganFunction,
     else {setChosenOrgan({name:"", content: []});}
   }
 
+//
+const [scrollFromLeft, setScrollFromLeft]=useState();  
+
+function scrollingOnOrgans()
+{
+  if (chosenOrgan.name)
+  { 
+    setScrollFromLeft(document.getElementById(chosenOrgan.name).getBoundingClientRect().left); 
+  }
+};
+
+useEffect(()=>{scrollingOnOrgans()}, [chosenOrgan])
+
 ////
 return(
 <OrganizingOrgansDiv  isItActive={isActive && constrictionClass}>
-  <FlexDiv>
-    { chosenOption.name.length>0 && organsArray.map((organ)=> 
-    
-      <div style={{position: "relative"}}>
-        <OrganButton isItOn={organ===chosenOrgan ? highlightedOrgan:unselectedOrgan} onClick={()=>switchOrgan(organ)}>{organ.name}</OrganButton> 
-    
-        { organ===chosenOrgan &&
-          <OrganOptions isItActive={isActive ? constrictionClass : !chosenOrganFunction && organOptionsFadeIn} onAnimationEnd={() => deactivateFrame()} >
-                {chosenOrgan.content.map((organFunction)=>  <BreathButton label={organFunction} activateFrame={activateFrame} setChosenOrganFunction={setChosenOrganFunction} bodyAction={bodyAction}/>) }
-          </OrganOptions>
-        }
-      </div>
+  <FlexDiv onScroll={()=>scrollingOnOrgans() }>
+    { chosenOption.name.length>0 && organsArray.map((organ)=>  
+        <OrganButton id={organ.name} isItOn={organ===chosenOrgan ? highlightedOrgan:unselectedOrgan} onClick={()=>{switchOrgan(organ)}}>{organ.name}</OrganButton> 
     )} 
+    { chosenOrgan.name &&
+          <OrganOptions scrollFromLeft={scrollFromLeft} isItActive={isActive ? constrictionClass : !chosenOrganFunction && organOptionsFadeIn} onAnimationEnd={() => deactivateFrame()} >
+                {chosenOrgan.content.map((organFunction)=>  <BreathButton label={organFunction} activateFrame={activateFrame} setChosenOrganFunction={setChosenOrganFunction} bodyAction={bodyAction}/>) }
+          </OrganOptions>}
   </FlexDiv>
 </OrganizingOrgansDiv>
 )
@@ -76,40 +86,48 @@ const organOptionsFadeIn = css`
 
 const OrganizingOrgansDiv = styled.div`
   display: flex;
+  justify-items: flex-start;
   gap: 20px;
   background-color: lightpink;
   padding: 30px;
   box-shadow: 0 10px grey;
   border-radius: 55px;
-  width: 80%;
-  margin: 20px auto;
+  margin: 10px auto;
   position: relative;
-  border: 1px solid grey;
+  border: none;
   ${(props) => props.isItActive}; //for animation
 
 `;
 
-const OrganOptions = styled.div`
-  background-color: pink;
+const OrganOptions = styled.div.attrs(props => ({
+  style: {
+    left: props.scrollFromLeft +"px",
+  },
+}))`
+  background: pink;
   border-radius: 55px;
   padding: 20px;
-  border: 3px solid grey;
-  width: 300px;
-  height: 200px;
-  box-shadow: 10px 10px grey;
-  position: relative;
-  z-index: 1;
+  border: none;
 
+  box-shadow: 0 10px grey;
+
+  position: fixed;
+  bottom: 165px;
+  z-index: 1;
+  
   display: grid;
-  grid-template-columns: 100px 100px 100px;
-  grid-template-rows: 100px 100px 100px;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+  
+  overflow: scroll; 
+
   ${(props) => props.isItActive}; //for animation
 `;
 
 //
 const buttonPushedAnim = keyframes`
     0% {transform:translate(0,0) scale(1); background-color: pink; box-shadow: 5px 5px darkgrey;}
-    100% {transform:translate(5px,5px) scale(0.95); background-color: red;   box-shadow: 0 0 50px red;}
+    100% {transform:translate(5px,5px) scale(0.95); background-color: red; box-shadow: 0 0 50px red;}
 `;
 const buttonReleasedAnim = keyframes`
     0% {transform:translate(5px,5px) scale(0.95); background-color: red;   box-shadow: 0 0 50px red;}
@@ -147,30 +165,20 @@ const buttonReleasedAnim = keyframes`
 
 
 const FlexDiv = styled.div`
-display: grid;
+display: flex;
+flex-direction: row;
+overflow: scroll;
 
-  grid-template-columns: 100px 100px 100px;
-  grid-template-rows: 50px 50px 50px 50px 50px;
-
-@media (max-width: 450px) {
-  grid-template-columns: 100px 100px;
-  grid-template-rows: 50px 50px 50px;
-}
-@media (max-width: 300px) {
-  grid-template-columns: 100px;
-  grid-template-rows: 50px 50px 50px 50px 50px 50px;
-}
-
-
-width: 350px;
-height: auto;
+width: 100%;
+min-height: 100px;
 padding: 3%;
+padding-right: 250px;
 margin: auto;
 background-color: pink;
 border-radius: 55px;
 gap: 60px 15px;
-box-shadow: 10px 10px grey;
-border: 1px solid grey;
+box-shadow: 0 -10px grey;
+border: 1px solid darkgrey;
 `;
 
 

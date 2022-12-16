@@ -65,18 +65,7 @@ function App() {
 
   return (
     <FlexMain>
-      <header>
-        <MemoryUl ref={memory} role="list">
-            {  pastOptions.length>1 && pastOptions.slice(1).map((option)=>
-            <AnimatedLi>
-              <details>
-                <summary>{option.action}</summary>
-                <div>{option.result}</div>
-              </details>
-            </AnimatedLi>)}
-            
-        </MemoryUl>
-      </header>
+      <header style={{color: "white"}}>Repetitions v.1</header>
       <Mind 
         currentAction={currentAction}
         chosenOrgan={chosenOrgan}
@@ -88,6 +77,17 @@ function App() {
         setPastOptions={setPastOptions}
         pastOptions={pastOptions}
       />
+    <MemoryUl ref={memory} role="list">
+        {  pastOptions.length>1 && pastOptions.slice(1).map((option)=>
+        <AnimatedLi>
+          <details>
+            <summary>{option.action}</summary>
+            <div>{option.result}</div>
+          </details>
+        </AnimatedLi>)}   
+    </MemoryUl>
+
+    <OrganNav>
       <Organs 
         chosenOption={chosenOption}
         chosenOrgan={chosenOrgan}
@@ -97,6 +97,8 @@ function App() {
         bodyAction={bodyAction}
         pastOptions={pastOptions}
       />
+    </OrganNav>
+
     </FlexMain>  
   );
 }
@@ -129,6 +131,13 @@ const MemoryUl = styled.ul`
   box-shadow: 0px -8px grey;
   border-radius: 35px;
   padding-bottom: 30px;
+`;
+
+//
+const OrganNav = styled.nav`
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
 `;
 
 //

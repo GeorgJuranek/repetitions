@@ -146,7 +146,7 @@ position: absolute;
 background-color: black;
 color: white;
 font-size: 1.5rem;
-bottom: 0;
+top: 0;
 z-index: 2;
 margin: 0 3%;
 `;
