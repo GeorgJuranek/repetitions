@@ -108,7 +108,8 @@ display: flex;
 justify-content: center;
 flex-wrap: nowrap;
 position: relative;
-height: 60vh;
+min-height: 300px;
+height: 40vh;
 `;
 
 //
@@ -143,10 +144,10 @@ ${(props) => props.winking}; //for animation
 //
 const SubtitleP = styled.p`
 position: absolute;
-background-color: black;
+background-color: rgba(0,0,0,0.5);
 color: white;
 font-size: 1.5rem;
-top: 0;
+bottom: 0;
 z-index: 2;
 margin: 0 3%;
 `;
@@ -185,8 +186,8 @@ position: absolute;
 
 const EyeImg = styled.img`
 overflow: scroll;
-width: 250%;
 height: auto;
+width: 100em;
 margin: auto;
 `;
 

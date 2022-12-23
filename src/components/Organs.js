@@ -43,7 +43,7 @@ useEffect(()=>{scrollingOnOrgans()}, [chosenOrgan])
 ////
 return(
 <OrganizingOrgansDiv  isItActive={isActive && constrictionClass}>
-  <FlexDiv onScroll={()=>scrollingOnOrgans() }>
+  <FlexDiv isItActive={isActive && constrictionClass2} onScroll={()=>scrollingOnOrgans() } onAnimationEnd={()=>scrollingOnOrgans() }>
     { chosenOption.name.length>0 && organsArray.map((organ)=>  
         <OrganButton id={organ.name} isItOn={organ===chosenOrgan ? highlightedOrgan:unselectedOrgan} onClick={()=>{switchOrgan(organ)}}>{organ.name}</OrganButton> 
     )} 
@@ -59,14 +59,25 @@ export default Organs;
 
 // ANIMATION
 const constriction = keyframes`
-      0%{transform: translate(0,0) scale(1); background-color: pink; border-radius: 55px; box-shadow: 10px 10px grey;}
+      0%{transform: translate(0,0) scale(1); background-color: pink; border-radius: 55px;}
       50%{transform:scale(0.95) translate(10px,10px);background-color: lightpink; border-radius: 85px}
       55%{box-shadow: 0px 0px grey;}
-      95%{transform:scale(1.02), box-shadow: 10px 10px grey;}
+      95%{transform:scale(1.02);}
       100%{transform: translate(0,0) scale(1); background-color: pink; border-radius: 55px;}
 `;
 const constrictionClass = css`
   animation-name: ${constriction};
+  animation-duration: 1.1s;
+  animation-iteration-count: 1;
+`;
+//
+const constriction2 = keyframes`
+      0%{ overflow:hidden;}     
+      50%{ overflow:hidden; gap:0; padding-top:0; padding-bottom:0; padding-left:100px;}
+      100%{ overflow:hidden;}
+`;
+const constrictionClass2 = css`
+  animation-name: ${constriction2};
   animation-duration: 1.1s;
   animation-iteration-count: 1;
 `;
@@ -97,6 +108,10 @@ const OrganizingOrgansDiv = styled.div`
   border: none;
   ${(props) => props.isItActive}; //for animation
 
+  height: 10vh;
+  min-height: 120px;
+  max-height: 200px;
+
 `;
 
 const OrganOptions = styled.div.attrs(props => ({
@@ -104,11 +119,12 @@ const OrganOptions = styled.div.attrs(props => ({
     left: props.scrollFromLeft +"px",
   },
 }))`
-  background: pink;
+  xbackground: pink;
+  background: linear-gradient(rgba(255,192,203, 0.4), rgba(255,152,153, 1));
+
   border-radius: 55px;
   padding: 20px;
-  border: none;
-
+  border: 1px solid grey;
   box-shadow: 0 10px grey;
 
   position: fixed;
@@ -118,6 +134,7 @@ const OrganOptions = styled.div.attrs(props => ({
   display: grid;
   grid-template-rows: 1fr 1fr;
   grid-template-columns: 1fr 1fr 1fr;
+  gap: 5px;
   
   overflow: scroll; 
 
@@ -167,18 +184,23 @@ const buttonReleasedAnim = keyframes`
 const FlexDiv = styled.div`
 display: flex;
 flex-direction: row;
+gap: 15px;
 overflow: scroll;
-
-width: 100%;
 min-height: 100px;
-padding: 3%;
-padding-right: 250px;
+max-width: 450px;
+
+padding: 8px 250px 8px 16px;
+@media only screen and (min-width: 768px) 
+{ padding-right: 100px; }
+
 margin: auto;
 background-color: pink;
 border-radius: 55px;
-gap: 60px 15px;
 box-shadow: 0 -10px grey;
 border: 1px solid darkgrey;
+
+${(props) => props.isItActive}; //for animation
+
 `;
 
 

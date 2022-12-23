@@ -87,6 +87,9 @@ function App() {
         </AnimatedLi>)}   
     </MemoryUl>
 
+    <CurrentArticle>
+    </CurrentArticle>
+
     <OrganNav>
       <Organs 
         chosenOption={chosenOption}
@@ -112,7 +115,7 @@ const FlexMain = styled.main`
   gap: 10px;
   width: 100%;
   background: linear-gradient(180deg, rgba(2,0,36,1) 35%, lightpink 100%, rgba(98,98,98,1) 100%);
-  padding-bottom: 150px;
+  padding-bottom: 180px;
   `;
 
 const MemoryUl = styled.ul`
@@ -151,19 +154,29 @@ const AnimatedLi = styled.li`
     animation-name: ${rushInAnim};
     animation-duration: 1.2s;
     animation-iteration-count: 1;
-    opacity: 0.2;
+    opacity: 0.1;
     font-size: 0.8rem;
-    border: 1px solid pink;
+    border-bottom: 2px solid pink;
+    padding: 6px;
 
-    :nth-last-child(-n+3) {
-      opacity: 0.3
+    :nth-last-child(-n+6) {
+      opacity: 0.2;
     }
 
-    :last-child {
+    :nth-last-child(-n+3) {
       opacity: 0.4;
     }
 
-    :focus {
-      opacity: 0.6;
+    :last-child {
+      opacity: 1;
     }
+
+`;
+
+const CurrentArticle = styled.article`
+    min-height: 40vh;
+    width: 80vw;
+    background: pink;
+    margin: auto;
+    border: 3px solid grey;
 `;

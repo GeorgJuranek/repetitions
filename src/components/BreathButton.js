@@ -26,8 +26,8 @@ const BreathButton = styled.button`
   background-color: lightpink;
   border-style: dotted;
   border-color: lightgrey;
-  width: 100px;
-  height: 150px;
+  width: 80px;
+  height: 100px;
 
   ${(props) => props.breathing}; //for animation
 
