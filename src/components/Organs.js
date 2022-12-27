@@ -38,20 +38,35 @@ function scrollingOnOrgans()
   }
 };
 
-useEffect(()=>{scrollingOnOrgans()}, [chosenOrgan])
+useEffect(()=>{scrollingOnOrgans()}, [chosenOrgan]);
+
+const [addOrgans, setAddOrgans] = useState(false);
+useEffect(()=>{setAddOrgans(false); setChosenOrgan({name:"", content: []})}, [chosenOption]);
 
 ////
 return(
 <OrganizingOrgansDiv  isItActive={isActive && constrictionClass}>
-  <FlexDiv isItActive={isActive && constrictionClass2} onScroll={()=>scrollingOnOrgans() } onAnimationEnd={()=>scrollingOnOrgans() }>
-    { chosenOption.name.length>0 && organsArray.map((organ)=>  
-        <OrganButton id={organ.name} isItOn={organ===chosenOrgan ? highlightedOrgan:unselectedOrgan} onClick={()=>{switchOrgan(organ)}}>{organ.name}</OrganButton> 
-    )} 
-    { chosenOrgan.name &&
-          <OrganOptions scrollFromLeft={scrollFromLeft} isItActive={isActive ? constrictionClass : !chosenOrganFunction && organOptionsFadeIn} onAnimationEnd={() => deactivateFrame()} >
-                {chosenOrgan.content.map((organFunction)=>  <BreathButton label={organFunction} activateFrame={activateFrame} setChosenOrganFunction={setChosenOrganFunction} bodyAction={bodyAction}/>) }
-          </OrganOptions>}
-  </FlexDiv>
+
+{  addOrgans ?
+    (<FlexDiv isItActive={isActive ? constrictionClass2 : (chosenOrganFunction.name || constrictionClass3)} onScroll={()=>scrollingOnOrgans() } onAnimationEnd={()=>scrollingOnOrgans() }>
+
+      <OrganButton onClick={()=> setAddOrgans(false)}>-</OrganButton>
+      { chosenOption.name.length>0 && organsArray.map((organ)=>  
+              <OrganButton id={organ.name} isItOn={organ===chosenOrgan ? highlightedOrgan:unselectedOrgan} onClick={()=>{switchOrgan(organ)}}>{organ.name}</OrganButton>)
+      } 
+      {chosenOrgan.name &&
+              <OrganOptions scrollFromLeft={scrollFromLeft} isItActive={isActive ? constrictionClass : chosenOrganFunction || organOptionsFadeIn} onAnimationEnd={() => deactivateFrame()} >
+                    {chosenOrgan.content.map((organFunction)=>  <BreathButton label={organFunction} activateFrame={activateFrame} setChosenOrganFunction={setChosenOrganFunction} bodyAction={bodyAction}/>) }
+              </OrganOptions>
+      }  
+    </FlexDiv>)
+  :
+    (chosenOption.name ? 
+      <OrganButton onClick={()=> {setAddOrgans(true)}} style={{position: "absolute"}}>+</OrganButton> 
+      :
+      <OrganButton style={{position: "absolute", color: "darkgrey", opacity: "0.5"}}>+</OrganButton>)
+}
+
 </OrganizingOrgansDiv>
 )
 }
@@ -73,13 +88,24 @@ const constrictionClass = css`
 //
 const constriction2 = keyframes`
       0%{ overflow:hidden;}     
-      50%{ overflow:hidden; gap:0; padding-top:0; padding-bottom:0; padding-left:100px;}
+      50%{ overflow:hidden; gap:0; padding-top:0; padding-bottom:0; padding-left: 100px; padding-right: 100px;}
       100%{ overflow:hidden;}
 `;
 const constrictionClass2 = css`
   animation-name: ${constriction2};
   animation-duration: 1.1s;
   animation-iteration-count: 1;
+`;
+
+//
+const organsOpenup = keyframes`
+    0% {width: 1%;}
+    100% {width: 100%;}
+`;
+const constrictionClass3 = css`
+animation-name: ${organsOpenup};
+animation-duration: 1.1s;
+animation-iteration-count: 1;
 `;
 
 //
@@ -97,9 +123,9 @@ const organOptionsFadeIn = css`
 
 const OrganizingOrgansDiv = styled.div`
   display: flex;
-  justify-items: flex-start;
+  justify-content: center;
   gap: 20px;
-  background-color: lightpink;
+  background-color: none;
   padding: 30px;
   box-shadow: 0 10px grey;
   border-radius: 55px;
@@ -108,9 +134,11 @@ const OrganizingOrgansDiv = styled.div`
   border: none;
   ${(props) => props.isItActive}; //for animation
 
-  height: 10vh;
+  height: 5vh;
   min-height: 120px;
   max-height: 200px;
+
+  min-width: 220px;
 
 `;
 
@@ -119,7 +147,6 @@ const OrganOptions = styled.div.attrs(props => ({
     left: props.scrollFromLeft +"px",
   },
 }))`
-  xbackground: pink;
   background: linear-gradient(rgba(255,192,203, 0.4), rgba(255,152,153, 1));
 
   border-radius: 55px;
@@ -179,8 +206,6 @@ const buttonReleasedAnim = keyframes`
     `;
 
 //
-
-
 const FlexDiv = styled.div`
 display: flex;
 flex-direction: row;
@@ -189,18 +214,17 @@ overflow: scroll;
 min-height: 100px;
 max-width: 450px;
 
+margin: auto;
 padding: 8px 250px 8px 16px;
 @media only screen and (min-width: 768px) 
-{ padding-right: 100px; }
+{ padding-right: 100px;}
 
-margin: auto;
 background-color: pink;
 border-radius: 55px;
 box-shadow: 0 -10px grey;
 border: 1px solid darkgrey;
 
 ${(props) => props.isItActive}; //for animation
-
 `;
 
 

@@ -71,7 +71,7 @@ function Mind({
 
         <LeftAside  ref={leftEyelid}  winking={isWinking && winking} onClick={ ()=>{setIsWinking(true)}} onAnimationEnd={()=>setIsWinking(false)}>
             <OptionsDiv>
-                <EyeImg  style={{opacity: "0.5"}} ref={leftEyesight}  src={require("../images/test.jpeg")} alt="your flat"/>
+                <EyeImg  style={{opacity: "0.5"}} ref={leftEyesight}  src={require("../images/testKitchen.jpeg")} alt="your flat"/>
                 <OverlayDiv>
                     {currentOptions.map((option)=> 
                         <OptionButton isItOn={option===chosenOption && highlightedOption} 
@@ -87,7 +87,7 @@ function Mind({
 
         <RightAside  ref={rightEyelid} winking={isWinking && winking} onClick={()=>{setIsWinking(true)}} onAnimationEnd={()=>setIsWinking(false)}>
             <OptionsDiv>  
-                <EyeImg style={{opacity: "0.5"}} ref={rightEyesight} src={require("../images/test.jpeg")} alt="your flat"/>
+                <EyeImg style={{opacity: "0.5"}} ref={rightEyesight} src={require("../images/testKitchen.jpeg")} alt="your flat"/>
                 <OverlayDiv>
                     {currentOptions.map((option)=> 
                             <OptionButton isItOn={option===chosenOption && highlightedOption} 
