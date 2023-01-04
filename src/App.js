@@ -1,7 +1,7 @@
 import {useRef} from 'react';
 import {useState, useEffect} from "react";
 import styled from "styled-components";
-import {keyframes} from "styled-components";
+//import {keyframes} from "styled-components";
 
 import Mind from "./components/Mind";
 import Organs from "./components/Organs";
@@ -21,7 +21,8 @@ function App() {
   const [currentOptions, setCurrentOptions] = useState([]);
 
   const [chosenOption, setChosenOption] = useState({name:"", interaction:"", content: {message:"start", leadsTo: doorknobs}});
-  useEffect(()=> setChosenOrgan({name:"", content: []}),[chosenOption]);
+
+  useEffect(()=> {setChosenOrgan({name:"", content: []}); setCurrentAction(false)},[chosenOption]);
 
   const [pastOptions, setPastOptions] = useState([]);
 
@@ -54,18 +55,23 @@ function App() {
       } 
       else
       {
-        setPastOptions([...pastOptions, {action: actionStringPast, result:`, but i couldn't ${currentAction[1]} the ${chosenOption.name} with my ${currentAction[0]}`}]);
+        setPastOptions([...pastOptions, {action: actionStringPast, result:`but to ${currentAction[1]} the ${chosenOption.name} with my ${currentAction[0]} had no effect on it...`}]);
       }
       
-      memory.current.scrollTo(0,memory.current.scrollHeight);
+      //memory.current.scrollTo(0,memory.current.scrollHeight);
   }
   ,[currentAction]);
+
+  //
+
+  //const [chosenMemory, setChosenMemory] = useState();
 
   //
 
   return (
     <FlexMain>
       <header style={{color: "white"}}>Repetitions v.1</header>
+
       <Mind 
         currentAction={currentAction}
         chosenOrgan={chosenOrgan}
@@ -77,18 +83,6 @@ function App() {
         setPastOptions={setPastOptions}
         pastOptions={pastOptions}
       />
-    <MemoryUl ref={memory} role="list">
-        {  pastOptions.length>1 && pastOptions.slice(1).map((option)=>
-        <AnimatedLi>
-          <details>
-            <summary>{option.action}</summary>
-            <div>{option.result}</div>
-          </details>
-        </AnimatedLi>)}   
-    </MemoryUl>
-
-    <CurrentArticle>
-    </CurrentArticle>
 
     <OrganNav>
       <Organs 
@@ -102,6 +96,8 @@ function App() {
       />
     </OrganNav>
 
+
+
     </FlexMain>  
   );
 }
@@ -110,73 +106,191 @@ export default App;
 
 const FlexMain = styled.main`
   display: flex;
-  justify-content: center;
+  xjustify-content: center;
   flex-direction: column;
   gap: 10px;
   width: 100%;
+  height: 100vh;
   background: linear-gradient(180deg, rgba(2,0,36,1) 35%, lightpink 100%, rgba(98,98,98,1) 100%);
   padding-bottom: 180px;
   `;
 
-const MemoryUl = styled.ul`
-  color: pink;
-  width: 80%;
-  height: 100px;
-  margin: auto;
-  text-align:center;
-  list-style: none;
-  display: flex;
-  flex-flow: column;
-  height: 20px;
-  overflow-y: scroll;
-  background: radial-gradient(circle, rgba(2,0,36,1) 21%, lightpink 86%);
-  border: 1px solid navyblue;
-  box-shadow: 0px -8px grey;
-  border-radius: 35px;
-  padding-bottom: 30px;
-`;
-
-//
-const OrganNav = styled.nav`
+  
+  //
+  const OrganNav = styled.nav`
   position: fixed;
-  bottom: 0;
+  bottom: 20%;
+  height: 0;
   width: 100vw;
-`;
+  display: flex;
+  justify-content: center;
+  z-index: 2;
+  `;
 
-//
-const rushInAnim = keyframes`
-    0%{transform:translateY(200px); opacity: 0.01}
-    50%{ opacity: 0.2}
-    100%{transform:translateY(0); opacity: 1}
-`;
+  //
+  const FactsDiv = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 4fr 1fr 4fr;
+  grid-template-rows:  repeat(auto);
+  width: 90%;
+  margin: 0 auto;
+  border: 2px solid rgba(2,0,36,1);
+  background: none;
+  `;
+  //
+  const ResultsDiv = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows:  1fr;
+  width: 90%;
+  margin: 0 auto;
+  border: 2px solid rgba(2,0,36,1);
+  background: none;
 
-const AnimatedLi = styled.li`
-    animation-name: ${rushInAnim};
-    animation-duration: 1.2s;
-    animation-iteration-count: 1;
-    opacity: 0.1;
-    font-size: 0.8rem;
-    border-bottom: 2px solid pink;
-    padding: 6px;
+  border-bottom: none;
+  `;
 
-    :nth-last-child(-n+6) {
-      opacity: 0.2;
-    }
+  //
+  const StatusSpan = styled.span`
+  margin-top: 25%; 
+  margin-left: 15%;
+
+  `;
+  
+  /*
+  const rushInAnim = keyframes`
+  0%{transform:translateY(200px); opacity: 0.01}
+  50%{ opacity: 0.2}
+  100%{transform:translateY(0); opacity: 1}
+  `;
+
+
+  const AnimatedLi = styled.li`
+  animation-name: ${rushInAnim};
+  animation-duration: 1.2s;
+  animation-iteration-count: 1;
+  opacity: 0.1;
+  font-size: 0.8rem;
+  border-bottom: 2px solid pink;
+  padding: 6px;
+  
+  :nth-last-child(-n+6) {
+    opacity: 0.2;
+  }
 
     :nth-last-child(-n+3) {
       opacity: 0.4;
     }
-
+    
     :last-child {
       opacity: 1;
     }
 
-`;
+    `;
+
+
+  const MemoryUl = styled.ul`
+    color: pink;
+    width: 80%;
+    height: 100px;
+    margin: auto;
+    text-align:center;
+    list-style: none;
+    display: flex;
+    flex-flow: column;
+    height: 20px;
+    overflow-y: scroll;
+    background: radial-gradient(circle, rgba(2,0,36,1) 21%, lightpink 86%);
+    border: 1px solid navyblue;
+    box-shadow: 0px -8px grey;
+    border-radius: 35px;
+    padding-bottom: 30px;
+  `;
 
 const CurrentArticle = styled.article`
-    min-height: 40vh;
-    width: 80vw;
+min-height: 40vh;
+width: 80vw;
     background: pink;
     margin: auto;
     border: 3px solid grey;
+
+    display: flex;
+    flex-direction: column;
+    xjustify-content: center;
+    align-items: center;
+
+    color: darkblue;
 `;
+
+
+const SubtitleP = styled.p`
+xposition: absolute;
+xbackground-color: rgba(0,0,0,0.5);
+xtop: 0;
+xz-index: 2;
+xtext-align: center;
+xcolor: darkblue;
+font-size: 1.5rem;
+margin: 0 3%;
+`;
+*/
+
+
+/*
+    <CurrentArticle>
+      <h1>{chosenOption.name ? chosenOption.name : "Choose from above..."}</h1>
+      {chosenOption.name && pastOptions.length>1 && pastOptions.slice(-1).map((option)=><SubtitleP>{option.action + option.result}</SubtitleP>)}
+    </CurrentArticle>
+*/
+
+/*
+    <MemoryUl ref={memory} role="list">
+        {pastOptions.length>1 && pastOptions.slice(1).map((option)=>  
+                <AnimatedLi style={{opacity: chosenMemory===option && 1} } onClick={()=> chosenMemory!==option ? setChosenMemory(option) : setChosenMemory()}>
+                    {option.action}{option.result}
+                </AnimatedLi>                
+            )
+        }   
+    </MemoryUl>
+*/
+
+/*
+<div style={{display:"flex", flexDirection: "column", gap: "5px"}}>
+<FactsDiv>
+    <span style={{color: "white", backgroundColor: "black"}}>last_control:</span> 
+    <div><span style={{color: "black", backgroundColor: "yellow"}}>{currentAction}</span></div>
+
+    <span style={{color: "white", backgroundColor: "black"}}>on_object:</span>
+    <div><span style={{color: "black", backgroundColor: "yellow"}}> {chosenOption ? chosenOption.name : "choose with Eyes"}</span></div>
+
+        <StatusSpan style={{color: "white", backgroundColor: "black"}}>{">_result:"}</StatusSpan>
+        <StatusSpan style={{color: "lightgrey", background: "none"}}>{pastOptions.slice(-1).map((option)=><StatusSpan>{currentAction && option.action}</StatusSpan>)}</StatusSpan>
+        <StatusSpan style={{color: "white", backgroundColor: "black"}}>{" >_"}</StatusSpan>
+        <StatusSpan style={{color: "black", backgroundColor: "red"}}>{pastOptions.slice(-1).map((option)=><StatusSpan>{currentAction ? option.result : " "}</StatusSpan>)}</StatusSpan>
+</FactsDiv>
+</div>
+
+  <span>
+    <ResultsDiv >
+      <span>
+        <span style={{color: "white", backgroundColor: "black"}}>{">_result:"}</span>
+        <span style={{color: "lightgrey", background: "none"}}>{pastOptions.slice(-1).map((option)=><span>{currentAction && option.action}</span>)}</span>
+        <span style={{color: "white", backgroundColor: "black"}}>{" >_"}</span>
+        <span style={{color: "black", backgroundColor: "red"}}>{pastOptions.slice(-1).map((option)=><span>{currentAction ? option.result : " "}</span>)}</span>
+      </span> 
+    </ResultsDiv>
+
+    <FactsDiv>
+      <div>
+          <span style={{color: "white", backgroundColor: "black"}}>last_control:</span> 
+          <div><span style={{color: "black", backgroundColor: "yellow"}}>{currentAction}</span></div>
+      </div>    
+      <div>
+          <span style={{color: "white", backgroundColor: "black"}}>on_object:</span>
+          <div><span style={{color: "black", backgroundColor: "yellow"}}> {chosenOption ? chosenOption.name : "choose with Eyes"}</span></div>
+      </div>
+    </FactsDiv>  
+  </span>
+
+*/
+

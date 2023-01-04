@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { keyframes, css } from "styled-components";
 import { useState } from "react";
 
-export default function Breathbutton({ label, activateFrame, setChosenOrganFunction, bodyAction }) {
+export default function Breathbutton({ label, activateFrame, setChosenOrganFunction, bodyAction}) {
   const [isBreathing, setIsBreathing] = useState(false);
 
   return (

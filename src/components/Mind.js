@@ -30,13 +30,6 @@ function Mind({
         }
 
     }
-
-    //
-    
-    const [leftEyePosX,setLeftEyePosX] = useState(0);
-    const [leftEyePosY,setLeftEyePosY] = useState(0);
-    const [rightEyePosX,setRightEyePosX] = useState(0);
-    const [rightEyePosY,setRightEyePosY] = useState(0);
     
     //
     
@@ -68,7 +61,6 @@ function Mind({
 
   return (
     <MindDiv>
-
         <LeftAside  ref={leftEyelid}  winking={isWinking && winking} onClick={ ()=>{setIsWinking(true)}} onAnimationEnd={()=>setIsWinking(false)}>
             <OptionsDiv>
                 <EyeImg  style={{opacity: "0.5"}} ref={leftEyesight}  src={require("../images/testKitchen.jpeg")} alt="your flat"/>
@@ -83,7 +75,7 @@ function Mind({
             </OptionsDiv>
         </LeftAside>
 
-        { pastOptions.length>1 && pastOptions.slice(-1).map((option)=><SubtitleP>{option.action + option.result}</SubtitleP>)}
+    { pastOptions.length>1 && pastOptions.slice(-1).map((option)=><SubtitleP>{option.action +", "+ option.result}</SubtitleP>)}
 
         <RightAside  ref={rightEyelid} winking={isWinking && winking} onClick={()=>{setIsWinking(true)}} onAnimationEnd={()=>setIsWinking(false)}>
             <OptionsDiv>  
@@ -109,7 +101,8 @@ justify-content: center;
 flex-wrap: nowrap;
 position: relative;
 min-height: 300px;
-height: 40vh;
+height: 75%;
+max-height: 750px;
 `;
 
 //
@@ -125,31 +118,21 @@ const winking = css`
 `;
 
 const LeftAside = styled.aside`
-border: 3px solid grey;
 width: 45%;
+xborder: 3px solid rgba(2,0,36,1);
 border-radius: 5px;
 overflow: scroll;
 ${(props) => props.winking}; //for animation
+z-index: 1;
 `;
-
 
 const RightAside = styled.aside`
 width: 45%;
-border: 3px solid grey;
+xborder: 3px solid rgba(2,0,36,1);
 border-radius: 5px;
 overflow: scroll;
 ${(props) => props.winking}; //for animation
-`;
-
-//
-const SubtitleP = styled.p`
-position: absolute;
-background-color: rgba(0,0,0,0.5);
-color: white;
-font-size: 1.5rem;
-bottom: 0;
-z-index: 2;
-margin: 0 3%;
+z-index: 1;
 `;
 
 //
@@ -189,6 +172,23 @@ overflow: scroll;
 height: auto;
 width: 100em;
 margin: auto;
+`;
+
+//
+const SubtitleP = styled.p`
+position: absolute;
+
+font-size: 1.5rem;
+bottom: 0;
+z-index: 0;
+margin: 5% 10%;
+
+color: white;
+text-shadow: 0 0 10px white;
+
+background-color: rgba(0,0,0,0.5);
+box-shadow: 0 0 30px black;
+
 `;
 
 //
