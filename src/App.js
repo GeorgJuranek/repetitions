@@ -1,7 +1,7 @@
 import {useRef} from 'react';
 import {useState, useEffect} from "react";
 import styled from "styled-components";
-//import {keyframes} from "styled-components";
+import {keyframes} from "styled-components";
 
 import Mind from "./components/Mind";
 import Organs from "./components/Organs";
@@ -64,7 +64,24 @@ function App() {
 
   //
 
-  //const [chosenMemory, setChosenMemory] = useState();
+  //MESSAGE IF SCROLLINGPOSITION IS AT BOTTOM
+  const [isBottomReached, setIsBottomReached] = useState(false);
+
+  function checkIfBottomReached()
+  {  
+    if ( (window.innerHeight + window.scrollY) >= document.body.offsetHeight-10)
+    {
+      //console.log("works!");
+      setIsBottomReached(true);
+    }
+    else
+    {
+      setIsBottomReached(false);
+    }
+  }
+
+  window.addEventListener('scroll', checkIfBottomReached);
+
 
   //
 
@@ -95,8 +112,12 @@ function App() {
         pastOptions={pastOptions}
       />
     </OrganNav>
-
-
+    
+    {isBottomReached && 
+      <Message> 
+        {chosenOption.name ? (chosenOrgan.name ? (" choose...") : " click below...") : "search for an object..."}
+      </Message>
+    }
 
     </FlexMain>  
   );
@@ -151,13 +172,34 @@ const FlexMain = styled.main`
   `;
 
   //
+  const messageFadesInAnim = keyframes`
+    0%{opacity: 0;}
+    100%{opacity: 0.5;}
+  `;
+
+  const Message = styled.p`
+  color: red;
+  text-shadow: 0 0 10px red;
+  box-shadow: 0 0 100px red;
+  background-color: rgba(255,0,0,0.2);
+  opacity: 0.5;
+  margin: auto;
+  font-size: 1.8rem;
+
+  animation: ${messageFadesInAnim};
+  animation-duration: 2.8s;
+  animation-iteration-count: 1;
+
+  `;
+
+
+  
+  /*
   const StatusSpan = styled.span`
   margin-top: 25%; 
   margin-left: 15%;
-
   `;
   
-  /*
   const rushInAnim = keyframes`
   0%{transform:translateY(200px); opacity: 0.01}
   50%{ opacity: 0.2}
@@ -188,6 +230,7 @@ const FlexMain = styled.main`
 
     `;
 
+  //const [chosenMemory, setChosenMemory] = useState();
 
   const MemoryUl = styled.ul`
     color: pink;
