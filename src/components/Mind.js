@@ -75,7 +75,7 @@ function Mind({
             </OptionsDiv>
         </LeftAside>
 
-    { pastOptions.length>1 && pastOptions.slice(-1).map((option)=><SubtitleP>{option.action +", "+ option.result}</SubtitleP>)}
+    { pastOptions.length>1 && pastOptions.slice(-1).map((option)=><SubtitleP>{option.action + option.result}</SubtitleP>)}
 
         <RightAside  ref={rightEyelid} winking={isWinking && winking} onClick={()=>{setIsWinking(true)}} onAnimationEnd={()=>setIsWinking(false)}>
             <OptionsDiv>  
@@ -153,12 +153,12 @@ color: white;
 background-color: rgba(0, 0, 0, 0.2);
 height: 100px;
 width: 100px;
-border: 1px solid white;
+border: 1px outset white;
 ${(props) => props.isItOn}; //for animation
 `;
 
 const highlightedOption= css`
-border: 2px solid orange;
+border: 2px groove orange;
 `;
 
 const OverlayDiv = styled.div`

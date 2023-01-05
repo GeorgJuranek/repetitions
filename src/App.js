@@ -22,7 +22,7 @@ function App() {
 
   const [chosenOption, setChosenOption] = useState({name:"", interaction:"", content: {message:"start", leadsTo: doorknobs}});
 
-  useEffect(()=> {setChosenOrgan({name:"", content: []}); setCurrentAction(false)},[chosenOption]);
+  useEffect(()=> {setChosenOrgan({name:"", content: []}); },[chosenOption]);
 
   const [pastOptions, setPastOptions] = useState([]);
 
@@ -42,21 +42,21 @@ function App() {
   };
 
   //
-  let actionString = `i try to ${currentAction[1]} the ${chosenOption.name}`;
+  //let actionString = `i try to ${currentAction[1]} the ${chosenOption.name}`;
   let actionStringPast = `i have tried to ${currentAction[1]} the ${chosenOption.name}`;
   
   useEffect(()=>
-  {   
+  {  
     if(currentAction.toString() === chosenOption.interaction.toString()) 
     {
-      setPastOptions([...pastOptions, {action: actionString, result: chosenOption.content.message}]);
-      setCurrentOptions(chosenOption.content.leadsTo);
-      setChosenOption({name:"", interaction:"", content: {message:"start", leadsTo:""}});
-      } 
-      else
-      {
-        setPastOptions([...pastOptions, {action: actionStringPast, result:`but to ${currentAction[1]} the ${chosenOption.name} with my ${currentAction[0]} had no effect on it...`}]);
-      }
+    setPastOptions([...pastOptions, {action: actionStringPast, result: chosenOption.content.message}]);
+    setCurrentOptions(chosenOption.content.leadsTo);
+    //setChosenOption({name:"", interaction:"", content: {message:"start", leadsTo:""}});
+    } 
+    else
+    {
+      setPastOptions([...pastOptions, {action: actionStringPast, result:`, but to ${currentAction[1]} the ${chosenOption.name} with my ${currentAction[0]} had no effect on it...`}]);
+    }
       
       //memory.current.scrollTo(0,memory.current.scrollHeight);
   }
@@ -69,9 +69,8 @@ function App() {
 
   function checkIfBottomReached()
   {  
-    if ( (window.innerHeight + window.scrollY) >= document.body.offsetHeight-10)
+    if ( (window.innerHeight + window.scrollY) >= document.body.offsetHeight-80)
     {
-      //console.log("works!");
       setIsBottomReached(true);
     }
     else
@@ -142,7 +141,7 @@ const FlexMain = styled.main`
   position: fixed;
   bottom: 20%;
   height: 0;
-  width: 100vw;
+  width: 100%;
   display: flex;
   justify-content: center;
   z-index: 2;

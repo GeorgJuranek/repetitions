@@ -43,36 +43,36 @@ useEffect(()=>{scrollingOnOrgans()}, [chosenOrgan]);
 const [addOrgans, setAddOrgans] = useState(false);
 useEffect(()=>{setAddOrgans(false); setChosenOrgan({name:"", content: []})}, [chosenOption]);
 
-////
+
+//
+
 return( 
 <>
 
-{  addOrgans ?
-    (
-    <WrapDiv>
+<WrapDiv isOpen={addOrgans}>
+  { addOrgans ?
       <FlexDiv isItActive={isActive && constrictionClass2} onScroll={()=>scrollingOnOrgans() } onAnimationEnd={()=>scrollingOnOrgans() }>
-
         <OrganButton onClick={()=> {setAddOrgans(false); setChosenOrgan(false)}}  isItOn={highlightedOrgan} style={{color:"white", border: "3px solid rgba(255, 155, 0, 0.3)", marginRight:"25px", opacity:"0.75"}}>-</OrganButton>
         { chosenOption.name.length>0 && organsArray.map((organ)=>  
                 <OrganButton id={organ.name} isItOn={organ===chosenOrgan ? highlightedOrgan:unselectedOrgan} onClick={()=>{switchOrgan(organ)}}>{organ.name}</OrganButton>)
         } 
         {chosenOrgan.name &&
                 <>
-                <OrganOptions scrollFromLeft={scrollFromLeft} isItActive={isActive ? constrictionClass : chosenOrganFunction || organOptionsFadeIn} onAnimationEnd={() => deactivateFrame()} >
-                      {chosenOrgan.content.map((organFunction)=>  <BreathButton label={organFunction} activateFrame={activateFrame} setChosenOrganFunction={setChosenOrganFunction} bodyAction={bodyAction}/>) }
-                </OrganOptions>
-                <ArrowDiv scrollFromLeft={scrollFromLeft} style={isActive && {display: "none"}} />
+                  <OrganOptions scrollFromLeft={scrollFromLeft} isItActive={isActive ? constrictionClass : chosenOrganFunction || organOptionsFadeIn} onAnimationEnd={() => deactivateFrame()} >
+                        {chosenOrgan.content.map((organFunction)=>  <BreathButton label={organFunction} activateFrame={activateFrame} setChosenOrganFunction={setChosenOrganFunction} bodyAction={bodyAction}/>) }
+                  </OrganOptions>
+                  <ArrowDiv scrollFromLeft={scrollFromLeft} style={isActive && {display: "none"}} />
                 </>
         }  
-      </FlexDiv>
-    </WrapDiv>
-    )
-  :
-    (chosenOption.name ? 
-      <OrganButton onClick={()=> {setAddOrgans(true)}} isItOn={unselectedOrgan}>+</OrganButton> 
+      </FlexDiv>  
       :
-      <OrganButton style={{color: "darkgrey", opacity: "0.75"}}>+</OrganButton>)
-}
+      chosenOption.name ? 
+        <OrganButton onClick={()=> {setAddOrgans(true)}} isItOn={unselectedOrgan}>+</OrganButton> 
+        :
+        <OrganButton style={{color: "darkgrey", opacity: "0.75"}}>+</OrganButton>
+      
+  }
+</WrapDiv>
 
 </>
 )
@@ -106,12 +106,12 @@ const constrictionClass2 = css`
 
 //
 const organsOpenup = keyframes`
-    0% {width: 0;}
+    0% {width: 1%;}
     100% {width: 100%;}
 `;
 const organsCloseDown = keyframes`
-    0% {width: 100%;}
-    100% {width: 1%;}
+    0% {padding-right: 30%;}
+    100% {padding: 0;}
 `;
 const lateArrowAnim = keyframes`
 0% {opacity: 0; transform: translateY(-50px); border-top: 5px solid grey;}
@@ -228,7 +228,7 @@ width: 20vw;
 max-width: 400px;
 
 margin: auto;
-padding: 8px 250px 8px 16px;
+padding: 8px 230px 8px 16px;
 
 background-color: lightpink;
 border-radius: 55px;
@@ -236,15 +236,24 @@ border: 1px solid darkgrey;
 
 ${(props) => props.isItActive}; //for animation
 
-xbox-shadow: 0 -10px grey;
 box-shadow: 0 0 300px lightpink;
 `;
 
-const WrapDiv = styled.div`
-animation-name: ${organsOpenup};
+//
+
+const closeDown = css`
+animation-name: ${organsCloseDown};
 animation-duration: 1.1s;
 animation-iteration-count: 1;
 `;
+
+const WrapDiv = styled.div`
+animation-name: ${(props) => props.isOpen ? organsOpenup : organsCloseDown};
+animation-duration: 1.1s;
+animation-iteration-count: 1;
+
+`;
+
 
 
 /*@media only screen and (min-width: 768px) 
