@@ -153,12 +153,15 @@ color: white;
 background-color: rgba(0, 0, 0, 0.2);
 height: 100px;
 width: 100px;
-border: 1px outset white;
+border: 1px inset white;
 ${(props) => props.isItOn}; //for animation
+margin: 10px;
 `;
 
 const highlightedOption= css`
-border: 2px groove orange;
+border: 3px groove orange;
+transform: scale(1.1);
+font-size: 1em;
 `;
 
 const OverlayDiv = styled.div`

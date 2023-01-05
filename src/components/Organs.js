@@ -52,7 +52,7 @@ return(
 <WrapDiv isOpen={addOrgans}>
   { addOrgans ?
       <FlexDiv isItActive={isActive && constrictionClass2} onScroll={()=>scrollingOnOrgans() } onAnimationEnd={()=>scrollingOnOrgans() }>
-        <OrganButton onClick={()=> {setAddOrgans(false); setChosenOrgan(false)}}  isItOn={highlightedOrgan} style={{color:"white", border: "3px solid rgba(255, 155, 0, 0.3)", marginRight:"25px", opacity:"0.75"}}>-</OrganButton>
+        <OrganButton onClick={()=> {setAddOrgans(false); setChosenOrgan(false)}}  isItOn={highlightedOrgan} style={{color:"white", border: "3px solid rgba(255, 155, 0, 0.3)", marginRight:"25px", opacity:"0.75"}} >-</OrganButton>
         { chosenOption.name.length>0 && organsArray.map((organ)=>  
                 <OrganButton id={organ.name} isItOn={organ===chosenOrgan ? highlightedOrgan:unselectedOrgan} onClick={()=>{switchOrgan(organ)}}>{organ.name}</OrganButton>)
         } 
