@@ -35,7 +35,7 @@ function Mind({
     
     useEffect(() => {
         const handleScroll = event => {
-                rightEyelid.current.scrollTo(event.currentTarget.scrollLeft, event.currentTarget.scrollTop)
+                rightEyelid.current.scrollTo(event.currentTarget.scrollLeft+(leftEyelid.current.offsetWidth) , event.currentTarget.scrollTop)
         }; 
         const element = leftEyelid.current;
         element.addEventListener('scroll', handleScroll);
@@ -47,7 +47,7 @@ function Mind({
 
       useEffect(() => {
         const handleScroll = event => {
-                leftEyelid.current.scrollTo(event.currentTarget.scrollLeft, event.currentTarget.scrollTop)
+                leftEyelid.current.scrollTo(event.currentTarget.scrollLeft-(rightEyelid.current.offsetWidth), event.currentTarget.scrollTop)
         }; 
         const element = rightEyelid.current;
         element.addEventListener('scroll', handleScroll);
@@ -57,7 +57,8 @@ function Mind({
         };
       }, []);
 
-      //
+    
+    //
 
   return (
     <MindDiv>
@@ -118,7 +119,11 @@ const winking = css`
 `;
 
 const LeftAside = styled.aside`
-width: 45%;
+width: 50%;
+position: absolute;
+height: 100%;
+left: 5%;
+
 xborder: 3px solid rgba(2,0,36,1);
 border-radius: 5px;
 overflow: scroll;
@@ -127,12 +132,25 @@ z-index: 1;
 `;
 
 const RightAside = styled.aside`
-width: 45%;
+width: 50%;
+position: absolute;
+height: 100%;
+right: 5%;
+
 xborder: 3px solid rgba(2,0,36,1);
 border-radius: 5px;
 overflow: scroll;
 ${(props) => props.winking}; //for animation
 z-index: 1;
+`;
+
+//
+
+const EyeImg = styled.img`
+overflow: scroll;
+height: auto;
+width: auto;
+margin: auto;
 `;
 
 //
@@ -166,15 +184,6 @@ font-size: 1em;
 
 const OverlayDiv = styled.div`
 position: absolute;
-`;
-
-//
-
-const EyeImg = styled.img`
-overflow: scroll;
-height: auto;
-width: 100em;
-margin: auto;
 `;
 
 //

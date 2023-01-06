@@ -106,8 +106,8 @@ const constrictionClass2 = css`
 
 //
 const organsOpenup = keyframes`
-    0% {width: 1%;}
-    100% {width: 100%;}
+    0% {width: 1%; opacity: 0;}
+    100% {width: 100%; opacity: 1;}
 `;
 const organsCloseDown = keyframes`
     0% {padding-right: 30%;}
@@ -203,7 +203,15 @@ const OrganOptions = styled.div.attrs(props => ({
   
   overflow: scroll; 
 
+   
   ${(props) => props.isItActive}; //for animation
+
+  @media only screen and (max-height: 600px) {
+    min-height: 80px;
+    height: 20vh; 
+
+
+  }
 `;
 
 //
@@ -214,12 +222,21 @@ box-shadow:  5px 5px grey;
 padding: 25px;
 height: 100px;
 ${(props) => props.isItOn}; //for animation
+
+font-size: 1rem;
+margin: auto;
+
+@media only screen and (max-height: 600px) {
+  height: 100%; 
+  font-size: auto;
+}
 `;
 
 //
 const FlexDiv = styled.div`
 display: flex;
 flex-direction: row;
+
 gap: 15px;
 overflow: scroll;
 
@@ -237,6 +254,10 @@ border: 1px solid darkgrey;
 ${(props) => props.isItActive}; //for animation
 
 box-shadow: 0 0 300px lightpink;
+
+@media only screen and (max-height: 600px) {
+  height: 10vh; 
+}
 `;
 
 //
@@ -251,7 +272,6 @@ const WrapDiv = styled.div`
 animation-name: ${(props) => props.isOpen ? organsOpenup : organsCloseDown};
 animation-duration: 1.1s;
 animation-iteration-count: 1;
-
 `;
 
 
