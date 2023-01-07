@@ -104,6 +104,7 @@ position: relative;
 min-height: 300px;
 height: 75%;
 max-height: 750px;
+
 `;
 
 //
@@ -119,7 +120,7 @@ const winking = css`
 `;
 
 const LeftAside = styled.aside`
-width: 50%;
+width: 51%;
 position: absolute;
 height: 100%;
 left: 5%;
@@ -132,7 +133,7 @@ z-index: 1;
 `;
 
 const RightAside = styled.aside`
-width: 50%;
+width: 51%;
 position: absolute;
 height: 100%;
 right: 5%;

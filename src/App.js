@@ -86,6 +86,7 @@ function App() {
 
   return (
     <FlexMain>
+
       <header style={{color: "white"}}>Repetitions v.1</header>
 
       <Mind 
@@ -139,35 +140,12 @@ const FlexMain = styled.main`
   //
   const OrganNav = styled.nav`
   position: fixed;
-  bottom: 20%;
+  bottom: 22%;
   height: 0;
-  width: 100%;
+  width: 99%;
   display: flex;
   justify-content: center;
   z-index: 2;
-  `;
-
-  //
-  const FactsDiv = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 4fr 1fr 4fr;
-  grid-template-rows:  repeat(auto);
-  width: 90%;
-  margin: 0 auto;
-  border: 2px solid rgba(2,0,36,1);
-  background: none;
-  `;
-  //
-  const ResultsDiv = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows:  1fr;
-  width: 90%;
-  margin: 0 auto;
-  border: 2px solid rgba(2,0,36,1);
-  background: none;
-
-  border-bottom: none;
   `;
 
   //

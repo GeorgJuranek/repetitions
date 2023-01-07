@@ -1,3 +1,11 @@
+import eyeIcon from "../images/icons/cameraIcon.svg";
+import noseIcon from "../images/icons/noseIcon.svg";
+import mouthIcon from "../images/icons/mouthIcon.svg";
+import handIcon from "../images/icons/handIcon.svg";
+import feetIcon from "../images/icons/feetIcon.svg";
+import penisIcon from "../images/icons/penisIcon.svg";
+import anusIcon from "../images/icons/anusIcon.svg";
+
 const eye = [
     "stare", 
     "close", 
@@ -49,12 +57,12 @@ const anus = [
 ]
 
 export const organsArray = [
-{name: "eye", content: eye},
-{name: "nose", content: nose},
-{name: "mouth", content:mouth },
-{name: "hand", content: hand},
-{name: "feet", content: feet},
-{name: "penis", content: penis},
-{name: "anus", content: anus},
+{name: "eye", icon: eyeIcon , content: eye},
+{name: "nose", icon: noseIcon , content: nose},
+{name: "mouth", icon: mouthIcon , content:mouth },
+{name: "hand", icon: handIcon , content: hand},
+{name: "feet", icon: feetIcon , content: feet},
+{name: "penis", icon: penisIcon , content: penis},
+{name: "anus", icon: anusIcon , content: anus},
 ];
 
