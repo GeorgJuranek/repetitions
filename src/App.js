@@ -11,7 +11,7 @@ import {doorknobs} from "./db/optionsArray"
 function App() {
 
   //
-  const [chosenOrgan, setChosenOrgan] = useState({name:"", content: []});
+  const [chosenOrgan, setChosenOrgan] = useState(false);
   useEffect(()=> setChosenOrganFunction(""),[chosenOrgan]);
 
   //
@@ -38,7 +38,10 @@ function App() {
   function bodyAction() {
     const compound = chosenOrgan.name+"/"+chosenOrganFunction;
     const compoundArray = compound.split("/");
+    setChosenOrgan(false);
     setCurrentAction(compoundArray);
+
+
   };
 
   //
@@ -51,7 +54,8 @@ function App() {
     {
     setPastOptions([...pastOptions, {action: actionStringPast, result: chosenOption.content.message}]);
     setCurrentOptions(chosenOption.content.leadsTo);
-    //setChosenOption({name:"", interaction:"", content: {message:"start", leadsTo:""}});
+    setChosenOption({name:"", interaction:"", content: {message:"start", leadsTo:""}});
+  
     } 
     else
     {

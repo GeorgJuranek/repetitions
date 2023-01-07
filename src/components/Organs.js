@@ -104,9 +104,10 @@ export default Organs;
 // ANIMATION
 const constriction = keyframes`
       0%{transform: translate(0,0) scale(1); background-color: pink; border-radius: 55px;}
-      50%{transform:scale(0.85) translate(10px,10px);background-color: lightpink; border-radius: 85px}
+      50%{transform:scale(0.85) translate(10px,10px);background-color: lightpink; border-radius: 85px;}
       55%{box-shadow: 0px 5px grey;}
-      95%{transform:scale(1.15);}
+      65%{opacity: 0.2;}
+      80%{transform: scale(1.15);}
       100%{transform: translate(0,0) scale(1); background-color: pink; border-radius: 55px;}
 `;
 const constrictionClass = css`
