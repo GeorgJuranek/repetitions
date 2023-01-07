@@ -8,7 +8,9 @@ function Mind({
     chosenOption,
     pastOptions,
     currentOptions,
-    setChosenOption
+    setChosenOption,
+    isWinking,
+    setIsWinking
 }) {
     //
         const leftEyelid = useRef();
@@ -16,8 +18,11 @@ function Mind({
         const leftEyesight = useRef();
         const rightEyesight = useRef();
     //
-
-    const [isWinking, setIsWinking] = useState(false);
+        //
+        useEffect(() => {
+            rightEyelid.current.scrollTo(leftEyelid.current.scrollLeft+(leftEyelid.current.offsetWidth) , rightEyelid.current.scrollTop );
+        });
+        //
 
     function switchOption(option) {
         if(option === chosenOption)
@@ -57,7 +62,6 @@ function Mind({
         };
       }, []);
 
-    
     //
 
   return (

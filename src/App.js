@@ -29,6 +29,9 @@ function App() {
   
   //
   const [currentAction, setCurrentAction] = useState([]);
+
+  //
+  const [isWinking, setIsWinking] = useState(false);
   
 
   //REFs
@@ -41,6 +44,7 @@ function App() {
     setChosenOrgan(false);
     setCurrentAction(compoundArray);
 
+    setIsWinking(true);
 
   };
 
@@ -103,6 +107,8 @@ function App() {
         setCurrentOptions={setCurrentOptions}
         setPastOptions={setPastOptions}
         pastOptions={pastOptions}
+        isWinking={isWinking}
+        setIsWinking={setIsWinking}
       />
 
     <OrganNav>

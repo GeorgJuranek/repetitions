@@ -62,23 +62,27 @@ return(
               </InsideOrganFlexDiv>
             </OrganButton>
         { chosenOption.name.length>0 && organsArray.map((organ)=>  (
-              <OrganButton id={organ.name} isItOn={organ===chosenOrgan ? highlightedOrgan:unselectedOrgan} onClick={()=>{switchOrgan(organ)}}>
-                <InsideOrganFlexDiv>
-                  {organ.name}
-                  <OrganIconImg src={organ.icon}/>
-                </InsideOrganFlexDiv> 
-              </OrganButton>
+            <>
+                <OrganButton id={organ.name} isItOn={organ===chosenOrgan ? highlightedOrgan:unselectedOrgan} onClick={()=>{switchOrgan(organ)}}>
+                  <InsideOrganFlexDiv>
+                    {organ.name}
+                    <OrganIconImg src={organ.icon}/>
+                  </InsideOrganFlexDiv> 
+                </OrganButton>
+
+                {organ===chosenOrgan  &&
+                        <>
+                          <OrganOptions scrollFromLeft={scrollFromLeft} isItActive={isActive ? constrictionClass : chosenOrganFunction || organOptionsFadeIn} onAnimationEnd={() => deactivateFrame()} >
+                                {chosenOrgan.content.map((organFunction)=>  <BreathButton label={organFunction} activateFrame={activateFrame} setChosenOrganFunction={setChosenOrganFunction} bodyAction={bodyAction}/>) }
+                          </OrganOptions>
+                          <ArrowDiv scrollFromLeft={scrollFromLeft} style={isActive && {display: "none"}} />
+                        </>
+                }      
+            </>          
             )
           )
         } 
-        {chosenOrgan.name &&
-                <>
-                  <OrganOptions scrollFromLeft={scrollFromLeft} isItActive={isActive ? constrictionClass : chosenOrganFunction || organOptionsFadeIn} onAnimationEnd={() => deactivateFrame()} >
-                        {chosenOrgan.content.map((organFunction)=>  <BreathButton label={organFunction} activateFrame={activateFrame} setChosenOrganFunction={setChosenOrganFunction} bodyAction={bodyAction}/>) }
-                  </OrganOptions>
-                  <ArrowDiv scrollFromLeft={scrollFromLeft} style={isActive && {display: "none"}} />
-                </>
-        }  
+
       </FlexDiv>  
       :
       chosenOption.name ? 
