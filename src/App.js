@@ -31,7 +31,7 @@ function App() {
   const [currentAction, setCurrentAction] = useState([]);
 
   //
-  const [isWinking, setIsWinking] = useState(false);
+  const [isWinking, setIsWinking] = useState(true);
   
 
   //REFs

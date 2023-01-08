@@ -40,7 +40,17 @@ function Mind({
     
     useEffect(() => {
         const handleScroll = event => {
-                rightEyelid.current.scrollTo(event.currentTarget.scrollLeft+(leftEyelid.current.offsetWidth) , event.currentTarget.scrollTop)
+            if (leftEyelid.current.scrollLeft<rightEyelid.current.scrollLeft)
+            {
+                rightEyelid.current.scrollTo(event.currentTarget.scrollLeft+(leftEyelid.current.offsetWidth) , event.currentTarget.scrollTop);
+            }
+            else
+            {
+                //leftEyelid.current.scrollTo(event.currentTarget.scrollLeft-(rightEyelid.current.offsetWidth), event.currentTarget.scrollTop);    
+                rightEyelid.current.scrollTo(event.currentTarget.scrollLeft-(leftEyelid.current.offsetWidth/6) , event.currentTarget.scrollTop);
+                leftEyelid.current.scrollTo(event.currentTarget.scrollLeft-(rightEyelid.current.offsetWidth/6), event.currentTarget.scrollTop);
+
+            }
         }; 
         const element = leftEyelid.current;
         element.addEventListener('scroll', handleScroll);
@@ -52,7 +62,17 @@ function Mind({
 
       useEffect(() => {
         const handleScroll = event => {
-                leftEyelid.current.scrollTo(event.currentTarget.scrollLeft-(rightEyelid.current.offsetWidth), event.currentTarget.scrollTop)
+            if (rightEyelid.current.scrollLeft>leftEyelid.current.scrollLeft)
+            {
+                leftEyelid.current.scrollTo(event.currentTarget.scrollLeft-(rightEyelid.current.offsetWidth), event.currentTarget.scrollTop);
+            }
+            else
+            {    
+                //rightEyelid.current.scrollTo(event.currentTarget.scrollLeft+(leftEyelid.current.offsetWidth), event.currentTarget.scrollTop); 
+                leftEyelid.current.scrollTo(event.currentTarget.scrollLeft+(rightEyelid.current.offsetWidth/6), event.currentTarget.scrollTop);
+                rightEyelid.current.scrollTo(event.currentTarget.scrollLeft+(leftEyelid.current.offsetWidth/6), event.currentTarget.scrollTop);   
+
+            }
         }; 
         const element = rightEyelid.current;
         element.addEventListener('scroll', handleScroll);
@@ -129,11 +149,10 @@ position: absolute;
 height: 100%;
 left: 5%;
 
-xborder: 3px solid rgba(2,0,36,1);
 border-radius: 5px;
 overflow: scroll;
 ${(props) => props.winking}; //for animation
-z-index: 1;
+z-index: 2;
 `;
 
 const RightAside = styled.aside`
@@ -142,7 +161,6 @@ position: absolute;
 height: 100%;
 right: 5%;
 
-xborder: 3px solid rgba(2,0,36,1);
 border-radius: 5px;
 overflow: scroll;
 ${(props) => props.winking}; //for animation
