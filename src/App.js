@@ -18,34 +18,28 @@ function App() {
 
   ////get the height of the window////
   const [fullSize, setFullSize] = useState("s");
+
   useEffect(()=>{
     const sizeH = window.innerHeight;
     const sizeW = window.innerWidth;
 
-    if (sizeH>1000 || sizeW>2000)
-    {
-      setFullSize("l");//=LARGE
-    }
-    else if (sizeH>750 || sizeW>1500)
-    {
-      setFullSize("m");//=MEDIUM
-    }
-    else
-    {
-      setFullSize("s");//=SMALL
-    }
-
+    if (sizeH>1000 || sizeW>2000)//=LARGE
+    { setFullSize("l");}
+    else if (sizeH>750 || sizeW>1500)//=MEDIUM
+    { setFullSize("m");}
+    else //=SMALL
+    { setFullSize("s");}
   });
 
   ////apply the height of the window to an image and make it currentBackground////
-  const [backgroundObj, setBackgroundObj] = useState({s: firstRoomS ,m: firstRoomM,l: firstRoomL});
+  const [backgroundObj, setBackgroundObj] = useState({s:firstRoomS ,m:firstRoomM ,l:firstRoomL});
 
   const [currentBackground, setCurrentBackground] = useState();
 
   useEffect(()=>{
-    setCurrentBackground( backgroundObj[fullSize] );
-  });
-
+    setCurrentBackground(backgroundObj[fullSize]);
+  },[backgroundObj]);
+  //
 
 
   //
@@ -58,8 +52,7 @@ function App() {
   //
   const [currentOptions, setCurrentOptions] = useState([]);
 
-  const [chosenOption, setChosenOption] = useState({name:"", interaction:"", content: {message:"start", leadsTo: doorknobs}});
-
+  const [chosenOption, setChosenOption] = useState({name:"", interaction:"", content: {message:"start", leadsTo: doorknobs, newImage:backgroundObj} });
   useEffect(()=> {setChosenOrgan({name:"", content: []}); },[chosenOption]);
 
   const [pastOptions, setPastOptions] = useState([]);
@@ -96,8 +89,9 @@ function App() {
     {
     setPastOptions([...pastOptions, {action: actionStringPast, result: chosenOption.content.message}]);
     setCurrentOptions(chosenOption.content.leadsTo);
-    setChosenOption({name:"", interaction:"", content: {message:"start", leadsTo:""}});
-  
+    setBackgroundObj(chosenOption.content.newImage);
+
+    setChosenOption({name:"", interaction:"", content: {message:"", leadsTo:"", newImage:backgroundObj}} );
     } 
     else
     {
