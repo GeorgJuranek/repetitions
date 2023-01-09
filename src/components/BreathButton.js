@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { keyframes, css } from "styled-components";
 import { useState } from "react";
 
-export default function Breathbutton({ label, activateFrame, setChosenOrganFunction, bodyAction }) {
+export default function Breathbutton({ label, activateFrame, setChosenOrganFunction, bodyAction}) {
   const [isBreathing, setIsBreathing] = useState(false);
 
   return (
@@ -26,6 +26,8 @@ const BreathButton = styled.button`
   background-color: lightpink;
   border-style: dotted;
   border-color: lightgrey;
+  width: 80px;
+  height: 100px;
 
   ${(props) => props.breathing}; //for animation
 
