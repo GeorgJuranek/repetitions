@@ -10,7 +10,9 @@ function Mind({
     currentOptions,
     setChosenOption,
     isWinking,
-    setIsWinking
+    setIsWinking,
+    currentBackground,
+    fullSize
 }) {
     //
         const leftEyelid = useRef();
@@ -40,16 +42,24 @@ function Mind({
     
     useEffect(() => {
         const handleScroll = event => {
-            if (leftEyelid.current.scrollLeft<rightEyelid.current.scrollLeft)
+
+            if (leftEyelid.current.scrollLeft<=1)
+            {
+                leftEyelid.current.scrollTo(event.currentTarget.scrollLeft+(10), event.currentTarget.scrollTop);
+                //rightEyelid.current.scrollTo(leftEyelid.current.scrollLeft+(leftEyelid.current.offsetWidth) , rightEyelid.current.scrollTop );
+                setIsWinking(true);
+            }
+            else if (leftEyelid.current.scrollLeft<rightEyelid.current.scrollLeft)
             {
                 rightEyelid.current.scrollTo(event.currentTarget.scrollLeft+(leftEyelid.current.offsetWidth) , event.currentTarget.scrollTop);
             }
             else
             {
-                //leftEyelid.current.scrollTo(event.currentTarget.scrollLeft-(rightEyelid.current.offsetWidth), event.currentTarget.scrollTop);    
-                rightEyelid.current.scrollTo(event.currentTarget.scrollLeft-(leftEyelid.current.offsetWidth/6) , event.currentTarget.scrollTop);
-                leftEyelid.current.scrollTo(event.currentTarget.scrollLeft-(rightEyelid.current.offsetWidth/6), event.currentTarget.scrollTop);
-
+                ////leftEyelid.current.scrollTo(event.currentTarget.scrollLeft-(rightEyelid.current.offsetWidth), event.currentTarget.scrollTop);    
+                rightEyelid.current.scrollTo(event.currentTarget.scrollLeft-(leftEyelid.current.offsetWidth) , event.currentTarget.scrollTop);
+                leftEyelid.current.scrollTo(event.currentTarget.scrollLeft-(rightEyelid.current.offsetWidth), event.currentTarget.scrollTop);
+                setIsWinking(true);
+                
             }
         }; 
         const element = leftEyelid.current;
@@ -62,15 +72,22 @@ function Mind({
 
       useEffect(() => {
         const handleScroll = event => {
-            if (rightEyelid.current.scrollLeft>leftEyelid.current.scrollLeft)
+            
+            if ( (rightEyelid.current.scrollLeft) > (rightEyesight.current.offsetWidth - rightEyelid.current.offsetWidth - 1) )
+            {
+                rightEyelid.current.scrollTo(event.currentTarget.scrollLeft-(100), event.currentTarget.scrollTop);
+                setIsWinking(true);
+            }
+            else if (rightEyelid.current.scrollLeft>leftEyelid.current.scrollLeft)
             {
                 leftEyelid.current.scrollTo(event.currentTarget.scrollLeft-(rightEyelid.current.offsetWidth), event.currentTarget.scrollTop);
             }
             else
             {    
-                //rightEyelid.current.scrollTo(event.currentTarget.scrollLeft+(leftEyelid.current.offsetWidth), event.currentTarget.scrollTop); 
-                leftEyelid.current.scrollTo(event.currentTarget.scrollLeft+(rightEyelid.current.offsetWidth/6), event.currentTarget.scrollTop);
-                rightEyelid.current.scrollTo(event.currentTarget.scrollLeft+(leftEyelid.current.offsetWidth/6), event.currentTarget.scrollTop);   
+                ////rightEyelid.current.scrollTo(event.currentTarget.scrollLeft+(leftEyelid.current.offsetWidth), event.currentTarget.scrollTop); 
+                leftEyelid.current.scrollTo(event.currentTarget.scrollLeft+(rightEyelid.current.offsetWidth), event.currentTarget.scrollTop);
+                rightEyelid.current.scrollTo(event.currentTarget.scrollLeft+(leftEyelid.current.offsetWidth), event.currentTarget.scrollTop);   
+                setIsWinking(true);
 
             }
         }; 
@@ -88,7 +105,7 @@ function Mind({
     <MindDiv>
         <LeftAside  ref={leftEyelid}  winking={isWinking && winking} onClick={ ()=>{setIsWinking(true)}} onAnimationEnd={()=>setIsWinking(false)}>
             <OptionsDiv>
-                <EyeImg  style={{opacity: "0.5"}} ref={leftEyesight}  src={require("../images/testKitchen.jpeg")} alt="your flat"/>
+                <EyeImg  style={{opacity: "0.5"}} ref={leftEyesight.fullSize}  src={currentBackground} alt="your flat"/>
                 <OverlayDiv>
                     {currentOptions.map((option)=> 
                         <OptionButton isItOn={option===chosenOption && highlightedOption} 
@@ -104,7 +121,7 @@ function Mind({
 
         <RightAside  ref={rightEyelid} winking={isWinking && winking} onClick={()=>{setIsWinking(true)}} onAnimationEnd={()=>setIsWinking(false)}>
             <OptionsDiv>  
-                <EyeImg style={{opacity: "0.5"}} ref={rightEyesight} src={require("../images/testKitchen.jpeg")} alt="your flat"/>
+                <EyeImg style={{opacity: "0.5"}} ref={rightEyesight} src={currentBackground} alt="your flat"/>
                 <OverlayDiv>
                     {currentOptions.map((option)=> 
                             <OptionButton isItOn={option===chosenOption && highlightedOption} 

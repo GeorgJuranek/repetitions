@@ -8,7 +8,45 @@ import Organs from "./components/Organs";
 
 import {doorknobs} from "./db/optionsArray"
 
+import firstRoomL from "./images/firstRoom/firstRoomL.png"
+import firstRoomM from "./images/firstRoom/firstRoomM.png"
+import firstRoomS from "./images/firstRoom/firstRoomS.png"
+
 function App() {
+
+  //GET SIZE TO DECIDE HOW BIG THE IMAGE SHALL BE
+
+  ////get the height of the window////
+  const [fullSize, setFullSize] = useState("s");
+  useEffect(()=>{
+    const sizeH = window.innerHeight;
+    const sizeW = window.innerWidth;
+
+    if (sizeH>1000 || sizeW>2000)
+    {
+      setFullSize("l");//=LARGE
+    }
+    else if (sizeH>750 || sizeW>1500)
+    {
+      setFullSize("m");//=MEDIUM
+    }
+    else
+    {
+      setFullSize("s");//=SMALL
+    }
+
+  });
+
+  ////apply the height of the window to an image and make it currentBackground////
+  const [backgroundObj, setBackgroundObj] = useState({s: firstRoomS ,m: firstRoomM,l: firstRoomL});
+
+  const [currentBackground, setCurrentBackground] = useState();
+
+  useEffect(()=>{
+    setCurrentBackground( backgroundObj[fullSize] );
+  });
+
+
 
   //
   const [chosenOrgan, setChosenOrgan] = useState(false);
@@ -109,6 +147,8 @@ function App() {
         pastOptions={pastOptions}
         isWinking={isWinking}
         setIsWinking={setIsWinking}
+        currentBackground={currentBackground}
+        fullSize={fullSize}
       />
 
     <OrganNav>
