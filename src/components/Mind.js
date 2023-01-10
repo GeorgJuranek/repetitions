@@ -208,18 +208,24 @@ position: relative;
 
 const OptionButton= styled.button`
 color: white;
-background-color: rgba(0, 0, 0, 0.2);
+background-color: rgba(0, 0, 0, 0.1);
 height: 100px;
 width: 100px;
 border: 1px inset white;
 ${(props) => props.isItOn}; //for animation
 margin: 10px;
+
+transform: translate(700%, 400%);
+@media (orientation: landscape) {
+    transform: translate(600%, 400%);
+  }
 `;
 
 const highlightedOption= css`
 border: 3px groove orange;
 transform: scale(1.1);
 font-size: 1em;
+background-color: rgba(0, 0, 0, 0.3);
 `;
 
 const OverlayDiv = styled.div`

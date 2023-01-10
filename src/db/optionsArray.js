@@ -2,13 +2,18 @@ import testBathroom from "../images/testBathroom.jpg";
 import testBedroom from "../images/testBedroom.jpg";
 import testKitchen from "../images/testKitchen.jpg";
 
+import firstRoomL from "../images/firstRoom/firstRoomL.png"
+import firstRoomM from "../images/firstRoom/firstRoomM.png"
+import firstRoomS from "../images/firstRoom/firstRoomS.png"
+
+
 //
 const end =[
-    {name: "emptyness", interaction: ["eye","stare"], content:{message:" and entered the void behind the rooms.", leadsTo:  []} },   
-    {name: "emptyness", interaction: ["eye","stare"], content:{message:" and entered the void behind the rooms.", leadsTo:  []} },
-    {name: "emptyness", interaction: ["eye","stare"], content:{message:" and entered the void behind the rooms.", leadsTo:  []} },
-    {name: "emptyness", interaction: ["eye","stare"], content:{message:" and entered the void behind the rooms.", leadsTo:  []} },
-]
+    {name: "emptyness", interaction: ["eye","stare"], content:{message:" and entered the void behind the rooms.", leadsTo:  [], newImage: {s:null ,m:null ,l:null} } },   
+    {name: "emptyness", interaction: ["eye","stare"], content:{message:" and entered the void behind the rooms.", leadsTo:  [], newImage: {s:null ,m:null ,l:null} } },
+    {name: "emptyness", interaction: ["eye","stare"], content:{message:" and entered the void behind the rooms.", leadsTo:  [], newImage: {s:null ,m:null ,l:null} } },
+    {name: "emptyness", interaction: ["eye","stare"], content:{message:" and entered the void behind the rooms.", leadsTo:  [], newImage: {s:null ,m:null ,l:null} } },
+];
 
 const bedroom = [
 {name: "mirror", interaction: ["eye","stare"],  content: {message:" and entered the mirror", leadsTo: end, newImage:{s:testBedroom ,m:testBedroom ,l:testBedroom}}},
@@ -36,5 +41,13 @@ export const doorknobs = [
 {name: "doorKnob", interaction: ["hand","rotate"], content: {message:" and entered the kitchen", leadsTo: kitchen, newImage:{s:testKitchen ,m:testKitchen ,l:testKitchen}} },
 {name: "doorHandle", interaction: ["hand","push"], content: {message:" and entered the bathroom", leadsTo: bathroom, newImage:{s:testBathroom ,m:testBathroom ,l:testBathroom}} },
 {name: "broken doorKnob", interaction: ["feet","kick"], content: {message:" and entered the bedroom", leadsTo: bedroom, newImage:{s:testBedroom ,m:testBedroom ,l:testBedroom}} },
-]
+];
 
+/*
+const end =[
+    {name: "emptyness", interaction: ["eye","stare"], content:{message:" and entered the void behind the rooms.", leadsTo:  [], newImage: {s: null, m:null, l:null} } },   
+    {name: "emptyness", interaction: ["eye","stare"], content:{message:" and entered the void behind the rooms.", leadsTo:  [], newImage: {s: null, m:null, l:null} } },
+    {name: "emptyness", interaction: ["eye","stare"], content:{message:" and entered the void behind the rooms.", leadsTo:  [], newImage: {s: null, m:null, l:null} } },
+    {name: "emptyness", interaction: ["eye","stare"], content:{message:" and entered the void behind the rooms.", leadsTo:  [], newImage: {s: null, m:null, l:null} } },
+]
+*/
